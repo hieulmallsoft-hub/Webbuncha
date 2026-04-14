@@ -2,7 +2,7 @@ import { http } from "./http.js";
 import { useAuthStore } from "../store/authStore.js";
 
 const toError = (res, fallback) => res.data?.message || fallback;
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8080";
+const API_BASE = import.meta.env.VITE_API_BASE || "";
 
 export const notificationsService = {
   async list() {

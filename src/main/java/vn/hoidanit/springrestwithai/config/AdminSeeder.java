@@ -19,13 +19,13 @@ public class AdminSeeder implements CommandLineRunner {
     @Value("${app.admin.enabled:false}")
     private boolean adminEnabled;
 
-    @Value("${app.admin.email:admin@bunchachinhhuong.vn}")
+    @Value("${app.admin.email:}")
     private String adminEmail;
 
-    @Value("${app.admin.password:Admin@12345}")
+    @Value("${app.admin.password:}")
     private String adminPassword;
 
-    @Value("${app.admin.name:Bun Cha Chinh Huong Admin}")
+    @Value("${app.admin.name:Admin}")
     private String adminName;
 
     public AdminSeeder(UserRepository userRepository, UserService userService, PasswordEncoder passwordEncoder) {
@@ -40,6 +40,9 @@ public class AdminSeeder implements CommandLineRunner {
             return;
         }
         if (adminEmail == null || adminEmail.isBlank()) {
+            return;
+        }
+        if (adminPassword == null || adminPassword.isBlank()) {
             return;
         }
         User existing = userRepository.findByEmail(adminEmail).orElse(null);

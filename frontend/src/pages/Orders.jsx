@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getOrders } from "../lib/api.js";
-import { getProfileFromToken } from "../lib/auth.js";
+import { clearToken, getProfileFromToken, isSessionInvalidResponse, SESSION_EXPIRED_MESSAGE } from "../lib/auth.js";
 import { useToast } from "../context/ToastContext.jsx";
 import LoadingOverlay from "../components/LoadingOverlay.jsx";
 
@@ -47,6 +48,7 @@ const paymentLabels = {
 export default function Orders() {
   const profile = useMemo(() => getProfileFromToken(), []);
   const { addToast } = useToast();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -94,6 +96,18 @@ export default function Orders() {
         setOrders(data);
         setError("");
       } else {
+        if (isSessionInvalidResponse(res)) {
+          clearToken();
+          setOrders([]);
+          setError(SESSION_EXPIRED_MESSAGE);
+          addToast({
+            type: "warning",
+            title: "Phiên đăng nhập hết hiệu lực",
+            message: SESSION_EXPIRED_MESSAGE
+          });
+          navigate("/login", { replace: true, state: { message: SESSION_EXPIRED_MESSAGE } });
+          return;
+        }
         setOrders([]);
         setError(res.data?.message || "Không thể tải đơn hàng.");
       }
@@ -109,7 +123,7 @@ export default function Orders() {
         window.clearInterval(intervalId);
       }
     };
-  }, [profile, addToast]);
+  }, [profile, addToast, navigate]);
 
   return (
     <div className="slide-deck">

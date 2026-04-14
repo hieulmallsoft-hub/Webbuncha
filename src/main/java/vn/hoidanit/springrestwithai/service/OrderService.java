@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
+import vn.hoidanit.springrestwithai.exception.InvalidSessionException;
 import vn.hoidanit.springrestwithai.exception.ResourceNotFoundException;
 import vn.hoidanit.springrestwithai.model.Order;
 import vn.hoidanit.springrestwithai.model.OrderItem;
@@ -113,7 +114,8 @@ public class OrderService {
 
     private User getUserByEmail(String email) {
         return this.userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Nguoi dung", "email", email));
+                .orElseThrow(() -> new InvalidSessionException(
+                        "Phien dang nhap khong con hop le. Vui long dang nhap lai."));
     }
 
     private void assertOwnerOrAdmin(Order order, User currentUser, boolean isAdmin) {

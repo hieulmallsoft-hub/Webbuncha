@@ -40,6 +40,13 @@ public class GlobalExceptionHandler {
                                 .body(ApiResponse.conflict(ex.getMessage()));
         }
 
+        @ExceptionHandler(InvalidSessionException.class)
+        public ResponseEntity<ApiResponse<Void>> handleInvalidSession(InvalidSessionException ex) {
+                log.warn("InvalidSessionException: {}", ex.getMessage());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                .body(ApiResponse.unauthorized(ex.getMessage()));
+        }
+
         // ========== SPRING MVC EXCEPTIONS ==========
 
         @ExceptionHandler(MethodArgumentTypeMismatchException.class)

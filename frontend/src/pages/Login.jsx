@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { loginUser } from "../lib/api.js";
 import { setToken } from "../lib/auth.js";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [form, setForm] = useState({ email: "", password: "" });
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState(location.state?.message || "");
 
   useEffect(() => {
     // Kích hoạt animation khi load trang
@@ -18,6 +19,12 @@ export default function Login() {
       document.body.classList.remove("loaded");
     };
   }, []);
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setStatus(location.state.message);
+    }
+  }, [location.state]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

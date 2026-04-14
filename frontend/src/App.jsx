@@ -91,7 +91,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/account" element={<Account />} />
-              <Route path="/orders" element={<Orders />} />
+              <Route path="/history" element={<Orders />} />
               <Route path="/reviews" element={<Reviews />} />
               <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />

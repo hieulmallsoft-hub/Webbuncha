@@ -32,9 +32,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/health")
     public ResponseEntity<String> getHomePage() {
-        return ResponseEntity.ok("Hello World");
+        return ResponseEntity.ok("OK");
     }
 
     // GET /users - lay tat ca users

@@ -1,6 +1,8 @@
 ﻿const TOKEN_KEY = "auth_token";
 const PROFILE_NAME_KEY = "profile_name";
 
+export const SESSION_EXPIRED_MESSAGE = "Phiên đăng nhập không còn hợp lệ. Vui lòng đăng nhập lại.";
+
 export const getToken = () => localStorage.getItem(TOKEN_KEY);
 
 export const setToken = (token) => {
@@ -9,6 +11,15 @@ export const setToken = (token) => {
 
 export const clearToken = () => {
   localStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(PROFILE_NAME_KEY);
+};
+
+export const isSessionInvalidResponse = (response) => {
+  const message = response?.data?.message || "";
+  return (
+    response?.status === 401 ||
+    (response?.status === 404 && message.includes("Nguoi dung") && message.includes("email"))
+  );
 };
 
 export const setProfileName = (name) => {
