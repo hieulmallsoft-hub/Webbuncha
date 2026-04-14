@@ -24,6 +24,7 @@ export default function CrudPage({
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [editing, setEditing] = useState(null);
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [uploadingField, setUploadingField] = useState("");
 
   const formDefaults = useMemo(() => ({ ...(defaultValues || {}) }), [defaultValues]);
 
@@ -31,6 +32,8 @@ export default function CrudPage({
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting }
   } = useForm({
     resolver: schema ? zodResolver(schema) : undefined,
@@ -54,15 +57,41 @@ export default function CrudPage({
     if (editing) {
       const res = await updateItem(editing.id, payload);
       if (res.ok) {
-        addToast({ type: "success", title: "Đã cập nhật", message: `${title} đã được cập nhật.` });
+        addToast({ type: "success", title: "Da cap nhat", message: `${title} da duoc cap nhat.` });
       }
     } else {
       const res = await createItem(payload);
       if (res.ok) {
-        addToast({ type: "success", title: "Đã tạo mới", message: `${title} đã được tạo.` });
+        addToast({ type: "success", title: "Da tao moi", message: `${title} da duoc tao.` });
       }
     }
     setOpen(false);
+  };
+
+  const handleImageUpload = async (field, file) => {
+    if (!file || typeof field.upload !== "function") {
+      return;
+    }
+
+    setUploadingField(field.name);
+    const res = await field.upload(file);
+    setUploadingField("");
+
+    if (res.ok && res.data?.url) {
+      setValue(field.name, res.data.url, { shouldValidate: true, shouldDirty: true });
+      addToast({
+        type: "success",
+        title: "Anh da tai len",
+        message: "Da luu anh len may chu va cap nhat duong dan."
+      });
+      return;
+    }
+
+    addToast({
+      type: "error",
+      title: "Tai anh that bai",
+      message: res.error || "Khong the tai anh len may chu."
+    });
   };
 
   const confirmDelete = (row) => {
@@ -74,7 +103,7 @@ export default function CrudPage({
     if (!pendingDelete) return;
     const res = await removeItem(pendingDelete.id);
     if (res.ok) {
-      addToast({ type: "success", title: "Đã xóa", message: `${title} đã được xóa.` });
+      addToast({ type: "success", title: "Da xoa", message: `${title} da duoc xoa.` });
     }
     setConfirmOpen(false);
     setPendingDelete(null);
@@ -86,15 +115,15 @@ export default function CrudPage({
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <h3 className="font-display text-2xl">{title}</h3>
-            {description && <p className="text-sm text-ink/60">{description}</p>}
+            {description ? <p className="text-sm text-ink/60">{description}</p> : null}
           </div>
           <button className="admin-button primary" type="button" onClick={openCreate}>
-            Thêm mới
+            Them moi
           </button>
         </div>
-        {error && <p className="mt-4 text-sm text-rose-600">{error}</p>}
+        {error ? <p className="mt-4 text-sm text-rose-600">{error}</p> : null}
         {loading ? (
-          <LoadingOverlay label="Đang đồng bộ dữ liệu..." className="mt-4 admin-loader" />
+          <LoadingOverlay label="Dang dong bo du lieu..." className="mt-4 admin-loader" />
         ) : (
           <div className="mt-6">
             <DataTable
@@ -103,10 +132,10 @@ export default function CrudPage({
               actions={(row) => (
                 <div className="flex gap-2">
                   <button className="admin-button ghost" type="button" onClick={() => openEdit(row)}>
-                    Sửa
+                    Sua
                   </button>
                   <button className="admin-button danger" type="button" onClick={() => confirmDelete(row)}>
-                    Xóa
+                    Xoa
                   </button>
                 </div>
               )}
@@ -117,51 +146,86 @@ export default function CrudPage({
 
       <Modal
         open={open}
-        title={editing ? `Cập nhật ${title}` : `Thêm ${title}`}
+        title={editing ? `Cap nhat ${title}` : `Them ${title}`}
         onClose={() => setOpen(false)}
         footer={
           <div className="flex flex-wrap gap-3">
             <button className="admin-button ghost" type="button" onClick={() => setOpen(false)}>
-              Hủy
+              Huy
             </button>
             <button className="admin-button primary" type="submit" form="crud-form" disabled={isSubmitting}>
-              {isSubmitting ? "Đang lưu..." : "Lưu"}
+              {isSubmitting ? "Dang luu..." : "Luu"}
             </button>
           </div>
         }
       >
         <form id="crud-form" className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
-          {fields.map((field) => (
-            <div key={field.name}>
-              <label className="admin-label">{field.label}</label>
-              {field.type === "select" ? (
-                <select className="admin-input" {...register(field.name)}>
-                  {field.options.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <input
-                  className="admin-input"
-                  type={field.type || "text"}
-                  placeholder={field.placeholder}
-                  {...register(field.name)}
-                />
-              )}
-              {errors[field.name] && (
-                <p className="admin-error">{errors[field.name]?.message?.toString()}</p>
-              )}
-            </div>
-          ))}
+          {fields.map((field) => {
+            const previewValue = watch(field.name);
+
+            return (
+              <div key={field.name}>
+                <label className="admin-label">{field.label}</label>
+                {field.type === "select" ? (
+                  <select className="admin-input" {...register(field.name)}>
+                    {field.options.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                ) : field.type === "image" ? (
+                  <div className="grid gap-3">
+                    <input
+                      className="admin-input"
+                      type="text"
+                      placeholder={field.placeholder}
+                      {...register(field.name)}
+                    />
+                    <div className="flex flex-wrap items-center gap-3">
+                      <label className="admin-button ghost cursor-pointer">
+                        Chon anh tu may
+                        <input
+                          className="hidden"
+                          type="file"
+                          accept="image/*"
+                          onChange={(event) => handleImageUpload(field, event.target.files?.[0])}
+                        />
+                      </label>
+                      <span className="text-xs text-ink/60">
+                        {uploadingField === field.name
+                          ? "Dang tai anh..."
+                          : "Ban co the dan URL hoac chon anh tu may."}
+                      </span>
+                    </div>
+                    {previewValue ? (
+                      <div className="rounded-2xl border border-ink/10 bg-white/70 p-3">
+                        <img className="h-32 w-full rounded-xl object-cover" src={previewValue} alt={field.label} />
+                        <p className="mt-2 break-all text-xs text-ink/60">{previewValue}</p>
+                      </div>
+                    ) : null}
+                  </div>
+                ) : (
+                  <input
+                    className="admin-input"
+                    type={field.type || "text"}
+                    placeholder={field.placeholder}
+                    {...register(field.name)}
+                  />
+                )}
+                {errors[field.name] ? (
+                  <p className="admin-error">{errors[field.name]?.message?.toString()}</p>
+                ) : null}
+              </div>
+            );
+          })}
         </form>
       </Modal>
 
       <ConfirmDialog
         open={confirmOpen}
-        title="Xác nhận xóa"
-        description={`Bạn có chắc muốn xóa ${pendingDelete?.name || pendingDelete?.code || "mục này"}?`}
+        title="Xac nhan xoa"
+        description={`Ban co chac muon xoa ${pendingDelete?.name || pendingDelete?.code || "muc nay"}?`}
         onConfirm={handleDelete}
         onCancel={() => setConfirmOpen(false)}
       />

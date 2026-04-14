@@ -15,10 +15,12 @@ const parseResponse = async (response) => {
 
 const request = async (path, options = {}, retry = true) => {
   const { accessToken, refreshToken, setTokens, logout } = useAuthStore.getState();
+  const isFormData = options.body instanceof FormData;
   const headers = {
-    "Content-Type": "application/json",
+    ...(isFormData ? {} : { "Content-Type": "application/json" }),
     ...(options.headers || {})
   };
+
   if (accessToken) {
     headers.Authorization = `Bearer ${accessToken}`;
   }
@@ -40,6 +42,7 @@ const request = async (path, options = {}, retry = true) => {
     setTokens(newAccess, newRefresh);
     return request(path, options, false);
   }
+
   logout();
   return parseResponse(response);
 };
@@ -47,6 +50,7 @@ const request = async (path, options = {}, retry = true) => {
 export const http = {
   get: (path) => request(path, { method: "GET" }),
   post: (path, body) => request(path, { method: "POST", body: JSON.stringify(body) }),
+  postFormData: (path, formData) => request(path, { method: "POST", body: formData }),
   put: (path, body) => request(path, { method: "PUT", body: JSON.stringify(body) }),
   patch: (path, body) => request(path, { method: "PATCH", body: JSON.stringify(body) }),
   delete: (path) => request(path, { method: "DELETE" })
