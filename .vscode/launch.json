@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot Local (H2)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/web bun cha",
+            "mainClass": "vn.hoidanit.springrestwithai.SpringRestWithAiApplication",
+            "projectName": "spring-rest-with-ai",
+            "preLaunchTask": "maven-prepare",
+            "classPaths": [
+                "${workspaceFolder}/web bun cha/target/classes",
+                "${workspaceFolder}/web bun cha/target/dependency/*"
+            ],
+            "modulePaths": [],
+            "args": "",
+            "env": {
+                "SPRING_PROFILES_ACTIVE": "local"
+            },
+            "envFile": "${workspaceFolder}/web bun cha/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot (web bun cha)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/web bun cha",
+            "mainClass": "vn.hoidanit.springrestwithai.SpringRestWithAiApplication",
+            "projectName": "spring-rest-with-ai",
+            "preLaunchTask": "maven-prepare",
+            "classPaths": [
+                "${workspaceFolder}/web bun cha/target/classes",
+                "${workspaceFolder}/web bun cha/target/dependency/*"
+            ],
+            "modulePaths": [],
+            "args": "",
+            "envFile": "${workspaceFolder}/web bun cha/.env"
+        }
+    ]
+}

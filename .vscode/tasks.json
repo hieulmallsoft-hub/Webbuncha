@@ -1,0 +1,50 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "mvn-package",
+            "type": "shell",
+            "command": "cmd.exe",
+            "args": [
+                "/c",
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -DskipTests package) else (call mvn -q -DskipTests package)"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\web bun cha"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "mvn-copy-deps",
+            "type": "shell",
+            "command": "cmd.exe",
+            "args": [
+                "/c",
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -DskipTests dependency:copy-dependencies -DoutputDirectory=target/dependency) else (call mvn -q -DskipTests dependency:copy-dependencies -DoutputDirectory=target/dependency)"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\web bun cha"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "maven-prepare",
+            "dependsOn": [
+                "mvn-package",
+                "mvn-copy-deps"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
+            "label": "spring-boot-run-local",
+            "type": "shell",
+            "command": "${workspaceFolder}\\run-local.cmd",
+            "args": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ]
+}
