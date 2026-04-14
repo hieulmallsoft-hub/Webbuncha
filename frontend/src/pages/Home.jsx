@@ -1,7 +1,6 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getProducts } from "../lib/api.js";
-import LoadingOverlay from "../components/LoadingOverlay.jsx";
 
 const normalizePrice = (value) => {
   if (value === null || value === undefined) {
@@ -26,7 +25,7 @@ export default function Home() {
         const mapped = data.map((item) => ({
           id: item.id,
           name: item.name,
-          description: item.description || "Hương vị truyền thống, đánh thức mọi giác quan với công thức độc quyền.",
+          description: item.description || "Hương vị truyền thống, đánh thức mọi giác quan với công thức mộc mạc quê nhà.",
           price: normalizePrice(item.price),
           category: item.categoryName || "Khác",
           tag: item.categoryName || "Món nổi bật"
@@ -49,9 +48,6 @@ export default function Home() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-          } else {
-            // Optional: Remove class when scrolling out for re-triggering presentation effect
-            // entry.target.classList.remove("is-visible"); 
           }
         });
       },
@@ -70,7 +66,7 @@ export default function Home() {
   }, [loadingHighlights, highlights]);
 
   return (
-    <div className="bg-[#1c1917] min-h-screen text-gray-100 font-sans selection:bg-gold selection:text-black overflow-hidden">
+    <div className="bg-[#FDFBF7] min-h-screen text-[#1A1A1A] font-sans selection:bg-[#6A7B53] selection:text-white overflow-hidden relative z-10">
       <style>
         {`
           .slide-left {
@@ -97,11 +93,11 @@ export default function Home() {
             opacity: 1;
             transform: translateX(0) translateY(0) scale(1);
           }
-          .custom-gold-text {
-            background: linear-gradient(to right, #f5e6ad, #d4af37, #aa8c2c);
+          .custom-accent-text {
+            background: linear-gradient(to right, #B8860B, #6A7B53);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0px 4px 20px rgba(212, 175, 55, 0.2);
+            text-shadow: 0px 4px 20px rgba(106, 123, 83, 0.2);
           }
           .cinematic-hero-home {
             background-image: url('/images/z7699819298138_5ea6bacf9d760fe5a02bd43fc7c1569b.jpg');
@@ -112,28 +108,28 @@ export default function Home() {
         `}
       </style>
 
-      {/* Cinematic Hero */}
+      {/* Hero Section */}
       <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 cinematic-hero-home scale-105 filter brightness-[0.5]"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-[#050505]"></div>
+        <div className="absolute inset-0 cinematic-hero-home scale-105 filter brightness-[0.6] sepia-[0.2]"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[#FDFBF7]"></div>
         
-        <div className="relative z-10 text-center px-6 mt-20 max-w-5xl mx-auto">
+        <div className="relative z-10 text-center px-4 mt-20 max-w-5xl mx-auto w-full">
           <div className="slide-up" style={{ transitionDelay: '100ms' }}>
-            <span className="inline-block px-8 py-3 border border-gold/40 text-xs md:text-sm uppercase tracking-[0.4em] font-semibold text-gold mb-8 bg-black/40 backdrop-blur-md shadow-lg">
-              Trải Nghiệm Ẩm Thực Đỉnh Cao
+            <span className="inline-block px-6 md:px-8 py-2.5 md:py-3 border border-[#FDFBF7]/40 text-[9px] md:text-sm uppercase tracking-[0.4em] font-bold text-[#FDFBF7] mb-6 md:mb-8 bg-black/30 backdrop-blur-md shadow-lg rounded-sm">
+              Tinh Hoa Ẩm Thực Đồng Quê
             </span>
           </div>
           
-          <h2 className="font-display text-6xl md:text-8xl lg:text-9xl text-white mb-10 tracking-wide leading-[1.1] slide-up drop-shadow-2xl" style={{ transitionDelay: '300ms' }}>
-            Hương Vị <br /> <span className="custom-gold-text italic pr-4">Bỉm Sơn</span>
+          <h2 className="font-display text-5xl md:text-8xl lg:text-9xl text-white mb-6 md:mb-10 tracking-wide leading-[1.1] slide-up drop-shadow-2xl" style={{ transitionDelay: '300ms' }}>
+            Hương Vị <br /> <span className="custom-accent-text italic pr-2 md:pr-4">Bỉm Sơn</span>
           </h2>
           
-          <p className="text-gray-200 text-base md:text-xl max-w-2xl mx-auto mb-16 leading-relaxed tracking-widest uppercase slide-up font-medium drop-shadow-lg" style={{ transitionDelay: '500ms' }}>
-            Nghệ thuật nướng than hoa truyền thống giao thoa cùng không gian sang trọng bậc nhất.
+          <p className="text-[#FDFBF7]/90 text-sm md:text-xl max-w-2xl mx-auto mb-10 md:mb-16 leading-relaxed tracking-widest uppercase slide-up font-semibold drop-shadow-md px-4" style={{ transitionDelay: '500ms' }}>
+            Nghệ thuật nướng than hoa giao thoa cùng không gian đồng mạc, thanh bình và sang trọng.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center slide-up" style={{ transitionDelay: '700ms' }}>
-            <Link className="px-12 py-5 bg-gold text-black text-sm uppercase tracking-[0.3em] font-extrabold hover:bg-white transition-all duration-500 shadow-[0_0_40px_rgba(212,175,55,0.4)] hover:-translate-y-2" to="/menu">
+          <div className="flex flex-col sm:flex-row gap-6 md:gap-8 justify-center items-center slide-up" style={{ transitionDelay: '700ms' }}>
+            <Link className="px-10 md:px-12 py-4 md:py-5 bg-[#6A7B53] text-[#FDFBF7] text-[10px] md:text-sm uppercase tracking-[0.3em] font-bold hover:bg-[#1C2B1C] transition-all duration-500 shadow-[0_10px_30px_rgba(106,123,83,0.3)] hover:-translate-y-2 rounded" to="/menu">
               Khám phá thực đơn
             </Link>
           </div>
@@ -141,112 +137,120 @@ export default function Home() {
       </section>
 
       {/* Philosophy Section */}
-      <section className="py-40 px-6 relative">
-        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 items-center gap-24">
-          <div className="space-y-12 slide-left">
-            <div className="flex items-center gap-6">
-              <div className="w-20 h-1 bg-gold"></div>
-              <span className="text-sm md:text-base uppercase tracking-[0.4em] text-gold font-extrabold">The Heritage</span>
+      <section className="py-24 md:py-40 px-6 relative">
+        <div className="absolute left-0 top-1/4 w-32 h-64 bg-gradient-to-r from-[#6A7B53]/5 to-transparent blur-3xl pointer-events-none"></div>
+        <div className="mx-auto max-w-7xl grid lg:grid-cols-2 items-center gap-16 md:gap-24 relative z-10">
+          <div className="space-y-8 md:space-y-12 slide-left">
+            <div className="flex items-center gap-4 md:gap-6">
+              <div className="w-12 md:w-20 h-0.5 md:h-1 bg-[#6A7B53]"></div>
+              <span className="text-[10px] md:text-base uppercase tracking-[0.4em] text-[#6A7B53] font-extrabold">Hồn Quê Mộc Mạc</span>
             </div>
             
-            <h3 className="font-display text-5xl md:text-7xl leading-[1.15] text-white font-semibold">
-              Bắt đầu từ một <br /> <span className="italic custom-gold-text">Bếp Than Hoa</span>
+            <h3 className="font-display text-4xl md:text-6xl lg:text-7xl leading-[1.2] text-[#1A1A1A] font-bold">
+              Bắt đầu từ một <br /> <span className="italic custom-accent-text">Bếp Than Hoa</span>
             </h3>
             
-            <p className="text-lg text-gray-300 leading-loose max-w-xl font-medium">
-              Chinh Hương khởi nguồn từ một quán nhỏ ở phố cổ, nơi mùi chả nướng lan tỏa khắp ngõ nhỏ. Chúng tôi trân trọng và giữ gìn trọn vẹn cách ướp thịt mang phong cách gia truyền để hương vị không bao giờ đổi thay.
+            <p className="text-sm md:text-lg text-[#1A1A1A]/70 leading-loose md:leading-[2.2] max-w-xl font-medium">
+              Chinh Hương khởi nguồn từ một nếp nhà nhỏ ở làng quê Thanh Hóa, nơi mùi chả nướng lẫn vào khói lam chiều lan tỏa khắp xóm. Chúng tôi trân trọng và đặt hồn mình vào từng cách thái thịt, ướp gia vị truyền thống, giữ vẹn nguyên cái chân chất, mộc mạc của ẩm thực quê nhà.
             </p>
             
-            <div className="pt-6">
-              <Link to="/about" className="group inline-flex items-center gap-4 text-sm uppercase tracking-[0.3em] font-bold text-white transition-colors hover:text-gold">
-                <span className="border-b-2 border-gold pb-2 group-hover:border-white transition-colors">Tìm hiểu thêm câu chuyện</span>
-                <svg className="w-6 h-6 transform group-hover:translate-x-3 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <div className="pt-4 md:pt-6">
+              <Link to="/about" className="group inline-flex items-center gap-3 md:gap-4 text-[10px] md:text-sm uppercase tracking-[0.3em] font-bold text-[#1A1A1A] transition-colors hover:text-[#6A7B53]">
+                <span className="border-b-2 border-[#6A7B53] pb-1.5 md:pb-2 group-hover:border-[#1A1A1A] transition-colors">Đọc câu chuyện</span>
+                <svg className="w-5 h-5 md:w-6 md:h-6 transform group-hover:translate-x-3 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </Link>
             </div>
           </div>
           
           <div className="relative slide-right">
-            <div className="absolute -inset-6 border-2 border-gold/30 translate-x-6 -translate-y-6 z-0"></div>
-            <div className="aspect-[4/5] overflow-hidden relative z-10 shadow-2xl">
-               <img 
-                src="/images/z7699827552354_755b5c69c8b1297ef9a1201caf3b50cc.jpg" 
-                alt="Brand Story" 
-                className="w-full h-full object-cover transition-transform duration-[3000ms] hover:scale-110 filter brightness-90 saturate-50 hover:saturate-100"
-              />
+            <div className="absolute -inset-4 md:-inset-6 border border-[#6A7B53]/30 translate-x-4 md:translate-x-6 -translate-y-4 md:-translate-y-6 z-0 rounded-2xl"></div>
+            <div className="aspect-[4/5] overflow-hidden relative z-10 shadow-2xl rounded-2xl bg-white border border-[#F0EBE1] p-2">
+               <div className="w-full h-full overflow-hidden rounded-xl">
+                 <img 
+                  src="/images/z7699827552354_755b5c69c8b1297ef9a1201caf3b50cc.jpg" 
+                  alt="Brand Story" 
+                  className="w-full h-full object-cover transition-transform duration-[3000ms] hover:scale-110 filter brightness-[0.95] sepia-[0.15]"
+                 />
+               </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Visual Journey - Media Strip */}
-      <section className="py-32 bg-[#0a0a0a] overflow-hidden">
-        <div className="mx-auto max-w-7xl px-6 mb-20 slide-up">
-          <div className="text-center space-y-6">
-            <span className="text-sm uppercase tracking-[0.5em] text-gold font-bold block">Visual Journey</span>
-            <h2 className="font-display text-5xl md:text-6xl text-white font-bold">Nghệ Thuật Ẩm Thực</h2>
-            <div className="w-1 h-24 bg-gradient-to-b from-gold to-transparent mx-auto mt-10"></div>
+      <section className="py-24 md:py-32 bg-white border-y border-[#F0EBE1] relative">
+        <div className="mx-auto max-w-7xl px-4 md:px-6 mb-16 md:mb-20 slide-up">
+          <div className="text-center space-y-4 md:space-y-6">
+            <span className="text-[10px] md:text-sm uppercase tracking-[0.5em] text-[#B8860B] font-extrabold block">Bức Tranh Thu Hoạch</span>
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-[#1A1A1A] font-bold">Nghệ Thuật Ẩm Thực</h2>
+            <div className="w-[2px] h-16 md:h-24 bg-gradient-to-b from-[#6A7B53] to-transparent mx-auto mt-6 md:mt-10"></div>
           </div>
         </div>
         
-        <div className="flex flex-col md:flex-row gap-6 px-6 h-auto md:h-[600px] zoom-in">
-          <div className="flex-[1] overflow-hidden group relative min-h-[300px] rounded-xl shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none"></div>
-            <img src="/images/z7699820424452_f8d7ab08e70eeb92e0f51c7d1a7c1b76.jpg" className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-110" alt="Grilled Pork" />
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-4 md:px-6 h-auto md:h-[600px] zoom-in max-w-[1400px] mx-auto">
+          <div className="flex-[1] overflow-hidden group relative min-h-[250px] md:min-h-[300px] rounded-2xl shadow-lg border border-[#F0EBE1]">
+            <img src="/images/z7699820424452_f8d7ab08e70eeb92e0f51c7d1a7c1b76.jpg" className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-[1.15] filter sepia-[0.1]" alt="Grilled Pork" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C2B1C]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
-          <div className="flex-[1] overflow-hidden group relative min-h-[300px] rounded-xl shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none"></div>
-            <img src="/images/z7699819283762_3634071596ff124321b8dd68e057bc54.jpg" className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-110" alt="Noodles" />
+          <div className="flex-[1] overflow-hidden group relative min-h-[250px] md:min-h-[300px] rounded-2xl shadow-lg border border-[#F0EBE1]">
+            <img src="/images/z7699819283762_3634071596ff124321b8dd68e057bc54.jpg" className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-[1.15] filter sepia-[0.1]" alt="Noodles" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C2B1C]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
-          <div className="flex-[1.5] overflow-hidden group relative min-h-[300px] rounded-xl shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none"></div>
-            <img src="/images/z7699818623770_8a62f4a85b03b59c3ced823381b7ec55.jpg" className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-110" alt="Nem" />
+          <div className="flex-[1.5] overflow-hidden group relative min-h-[250px] md:min-h-[300px] rounded-2xl shadow-lg border border-[#F0EBE1]">
+            <img src="/images/z7699818623770_8a62f4a85b03b59c3ced823381b7ec55.jpg" className="w-full h-full object-cover transition-all duration-[2000ms] group-hover:scale-[1.15] filter sepia-[0.1]" alt="Nem" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C2B1C]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
         </div>
       </section>
 
       {/* Highlighted Menu */}
-      <section className="py-40 px-6 relative">
+      <section className="py-24 md:py-40 px-4 md:px-6 relative">
         <div className="mx-auto max-w-7xl relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8 slide-right">
-            <div className="space-y-6">
-              <div className="flex items-center gap-6">
-                <span className="w-16 h-1 bg-gold"></span>
-                <span className="text-sm uppercase tracking-[0.4em] text-gold font-extrabold">Selections</span>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 gap-6 md:gap-8 slide-right">
+            <div className="space-y-4 md:space-y-6">
+              <div className="flex items-center gap-4 md:gap-6">
+                <span className="w-10 md:w-16 h-0.5 md:h-1 bg-[#6A7B53]"></span>
+                <span className="text-[10px] md:text-sm uppercase tracking-[0.4em] text-[#6A7B53] font-extrabold">Từ mảnh vườn nhỏ</span>
               </div>
-              <h3 className="font-display text-6xl md:text-7xl text-white font-bold">Món Chuẩn Vị</h3>
+              <h3 className="font-display text-4xl md:text-6xl lg:text-7xl text-[#1A1A1A] font-bold">Món Quê Chuẩn Vị</h3>
             </div>
-            <Link to="/menu" className="text-sm uppercase tracking-[0.3em] font-extrabold text-gray-300 border-b-2 border-gray-600 pb-2 hover:text-gold hover:border-gold transition-all duration-300">
-              Xem toàn bộ thực đơn
+            <Link to="/menu" className="text-[10px] md:text-sm uppercase tracking-[0.3em] font-extrabold text-[#1A1A1A]/50 border-b-2 border-[#1A1A1A]/30 pb-2 hover:text-[#6A7B53] hover:border-[#6A7B53] transition-all duration-300">
+              Xem mẹt thực đơn
             </Link>
           </div>
 
           {loadingHighlights ? (
-           <></>
+            <p className="text-center py-20 text-[#1A1A1A]/40 italic font-semibold text-sm">Đang ủ than hoa...</p>
           ) : highlights.length === 0 ? (
-            <p className="text-center py-20 text-gray-400 italic font-semibold text-lg">Đang cập nhật thực đơn...</p>
+            <p className="text-center py-20 text-[#1A1A1A]/40 italic font-semibold text-sm">Chưa có món mới. Bạn đợi một chút nhé...</p>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-12 gap-y-12 md:gap-y-20">
               {highlights.map((item, idx) => (
-                <div key={item.id} className="group relative slide-up" style={{ transitionDelay: `${(idx * 150) % 600}ms` }}>
-                  <div className="aspect-[4/3] overflow-hidden rounded-t-2xl relative bg-[#111]">
+                <div key={item.id} className="group relative slide-up bg-white rounded-2xl shadow-lg border border-[#F0EBE1] overflow-hidden hover:shadow-[0_20px_40px_rgba(106,123,83,0.08)] transition-all duration-500" style={{ transitionDelay: `${(idx * 150) % 600}ms` }}>
+                  <div className="aspect-[4/3] overflow-hidden relative bg-[#FDFBF7]">
                     <img 
                       src={item.imageUrl || "/images/z7699818644305_2d4593c168855b379e693ea8a463137d.jpg"} 
                       alt={item.name} 
-                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-transform duration-[1500ms] group-hover:scale-110 filter sepia-[0.1]"
                     />
-                  </div>
-                  <div className="bg-gradient-to-b from-[#111] to-[#0a0a0a] p-8 rounded-b-2xl border border-t-0 border-white/10 group-hover:border-gold/30 transition-colors duration-300">
-                    <div className="flex justify-between items-center mb-6">
-                      <span className="text-xs uppercase tracking-[0.3em] text-gold font-bold bg-gold/10 px-4 py-2 rounded-lg">{item.tag}</span>
-                      <span className="text-2xl font-bold text-white group-hover:text-gold transition-colors block">${(item.price).toFixed(2)}</span>
+                    <div className="absolute top-4 left-4">
+                       <span className="text-[9px] uppercase tracking-[0.3em] text-white font-bold bg-[#6A7B53]/90 backdrop-blur px-3 py-1.5 rounded-md shadow-sm">{item.tag}</span>
                     </div>
-                    <h4 className="font-display text-3xl mb-4 text-white font-semibold group-hover:text-gold transition-all duration-300">{item.name}</h4>
-                    <p className="text-sm text-gray-300 leading-loose mb-8 line-clamp-2">{item.description}</p>
-                    <Link to={`/menu/${item.id}`} className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.2em] font-bold text-white hover:text-gold transition-colors">
-                      Xem chi tiết
-                      <span className="w-8 h-0.5 bg-gold"></span>
+                  </div>
+                  <div className="p-6 md:p-8 relative">
+                    <div className="absolute right-6 -top-6 w-12 h-12 bg-[#FDFBF7] rounded-full flex items-center justify-center font-bold text-[#1A1A1A] border shadow-sm border-[#F0EBE1] shadow-[0_5px_15px_rgba(0,0,0,0.05)] group-hover:bg-[#6A7B53] group-hover:text-white transition-colors duration-300">
+                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                    </div>
+                    
+                    <h4 className="font-display text-2xl md:text-3xl mb-3 text-[#1A1A1A] font-bold group-hover:text-[#6A7B53] transition-colors">{item.name}</h4>
+                    <p className="text-[#1A1A1A]/60 font-semibold mb-4">${(item.price).toFixed(2)}</p>
+                    <p className="text-[11px] md:text-sm text-[#1A1A1A]/70 leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-3 font-medium bg-[#FAFAFA] p-3 rounded-lg border border-[#F0EBE1]">{item.description}</p>
+                    
+                    <Link to={`/menu/${item.id}`} className="inline-flex items-center gap-2 md:gap-3 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1A1A1A] hover:text-[#6A7B53] transition-colors">
+                      Mở chi tiết
+                      <div className="w-6 md:w-8 h-px bg-[#1A1A1A] group-hover:bg-[#6A7B53] transition-colors"></div>
                     </Link>
                   </div>
                 </div>
@@ -257,21 +261,22 @@ export default function Home() {
       </section>
 
       {/* Signature Section */}
-      <section className="py-24 relative overflow-hidden bg-[#161412]">
-        <div className="mx-auto max-w-5xl text-center px-6 relative z-10 zoom-in">
-          <h3 className="font-display text-5xl md:text-7xl lg:text-8xl text-white mb-20 leading-[1.2] italic font-semibold">
-            "Mỗi phần bún chả là <br /> <span className="custom-gold-text block mt-4">Hương vị Tinh Hoa</span>"
+      <section className="py-24 md:py-32 relative overflow-hidden bg-[#1C2B1C] border-y-[6px] border-[#6A7B53]">
+        <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/rice-paper-2.png')]"></div>
+        <div className="mx-auto max-w-5xl text-center px-4 md:px-6 relative z-10 zoom-in">
+          <h3 className="font-display text-4xl md:text-6xl lg:text-7xl text-[#FDFBF7] mb-12 md:mb-20 leading-[1.3] italic font-medium [text-shadow:0_5px_15px_rgba(0,0,0,0.4)]">
+            "Sợi bún mềm, miếng chả thơm <br /> <span className="custom-accent-text block mt-3 md:mt-4 font-bold">Thảo thơm tình mẹ</span>"
           </h3>
           
-          <div className="w-2 h-24 bg-gradient-to-b from-transparent via-gold to-transparent mx-auto"></div>
+          <div className="w-1 md:w-1.5 h-16 md:h-24 bg-gradient-to-b from-[#6A7B53] to-transparent mx-auto rounded-full"></div>
           
-          <p className="text-gray-200 text-sm md:text-base uppercase tracking-[0.5em] mt-16 font-extrabold">
-            Đẳng cấp 5 sao giữa lòng thành phố
+          <p className="text-[#B8860B] text-[10px] md:text-xs uppercase tracking-[0.4em] mt-10 md:mt-16 font-extrabold max-w-xs mx-auto md:max-w-none">
+            Gửi gắm quê hương qua từng thớ thịt nướng.
           </p>
           
-          <div className="mt-20">
-            <Link to="/checkout" className="px-14 py-6 bg-transparent border-2 border-gold text-gold text-sm uppercase tracking-[0.4em] font-extrabold hover:bg-gold hover:text-black transition-all duration-500 shadow-[0_0_30px_rgba(212,175,55,0.2)] hover:shadow-[0_0_60px_rgba(212,175,55,0.5)]">
-              Đặt bàn trực tuyến
+          <div className="mt-12 md:mt-16">
+            <Link to="/checkout" className="inline-block px-10 md:px-14 py-4 md:py-6 bg-transparent border-2 border-[#6A7B53] text-[#FDFBF7] text-[10px] md:text-sm uppercase tracking-[0.3em] font-bold hover:bg-[#6A7B53] transition-all duration-500 rounded">
+              Lên Mẹt Món Mới
             </Link>
           </div>
         </div>

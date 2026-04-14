@@ -11,9 +11,10 @@
     --gold-dark: #aa8c2c;
     --midnight: #0a0a0a;
     --charcoal: #121212;
-    --premium-sand: #f8f1e7;
-    --text-main: #1d1b16;
+    --premium-sand: #FDFBF7;
+    --text-main: #1A1A1A;
     --text-muted: #6b6b6b;
+    --bamboo-green: #6A7B53;
   }
 
   body {
@@ -39,12 +40,16 @@
   @keyframes fadeUpReveal {
     from {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(30px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  .animate-fade-up {
+    animation: fadeUpReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   /* Premium Components */

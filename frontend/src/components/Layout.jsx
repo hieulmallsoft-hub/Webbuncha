@@ -31,12 +31,86 @@ export default function Layout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#1c1917] text-white">
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b border-white/5 ${scrolled ? "bg-[#0a0a0a]/80 backdrop-blur-xl py-3 shadow-2xl" : "bg-gradient-to-b from-black/80 to-transparent py-6"}`}>
-        <div className="mx-auto max-w-7xl px-6 flex items-center justify-between">
-          <Link to="/" className="group">
-            <h1 className="font-display text-2xl tracking-[0.2em] uppercase text-white group-hover:text-gold transition-colors duration-700">
-              Bún Chả Chinh Hương
+    <div className="min-h-screen bg-[#FDFBF7] text-[#1A1A1A] relative font-sans">
+      <style>
+        {`
+          @keyframes bambooSway {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(3deg); }
+            100% { transform: rotate(0deg); }
+          }
+          @keyframes bambooSwayOpposite {
+            0% { transform: scaleX(-1) rotate(0deg); }
+            50% { transform: scaleX(-1) rotate(3deg); }
+            100% { transform: scaleX(-1) rotate(0deg); }
+          }
+          .bamboo-container {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            width: 180px;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.25;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+          .bamboo-left {
+            left: -20px;
+            transform-origin: bottom center;
+            animation: bambooSway 10s ease-in-out infinite;
+          }
+          .bamboo-right {
+            right: -20px;
+            transform-origin: bottom center;
+            animation: bambooSwayOpposite 12s ease-in-out infinite;
+          }
+          @media (max-width: 1024px) {
+            .bamboo-container { width: 100px; opacity: 0.15; }
+          }
+        `}
+      </style>
+
+      {/* Bamboo Decorations Left */}
+      <div className="bamboo-container bamboo-left">
+         <svg viewBox="0 0 100 800" fill="#6A7B53" xmlns="http://www.w3.org/2000/svg">
+            {/* Trunk 1 */}
+            <path d="M30,800 L35,800 Q40,400 35,0 L30,0 Q35,400 30,800 Z" opacity="0.8" />
+            <path d="M35,100 Q60,95 80,70 Q60,90 35,105 Z" />
+            <path d="M35,250 Q75,240 95,210 Q75,235 35,255 Z" />
+            <path d="M35,450 Q65,445 85,420 Q65,440 35,460 Z" />
+            <path d="M35,650 Q80,640 100,610 Q80,635 35,660 Z" />
+            {/* Trunk 2 */}
+            <path d="M10,800 L14,800 Q18,400 14,0 L10,0 Q14,400 10,800 Z" opacity="0.6" />
+            <path d="M14,180 Q40,175 55,150 Q40,170 14,185 Z" />
+            <path d="M14,380 Q45,370 60,340 Q45,365 14,385 Z" />
+            <path d="M14,580 Q40,575 55,550 Q40,570 14,585 Z" />
+         </svg>
+      </div>
+
+      {/* Bamboo Decorations Right */}
+      <div className="bamboo-container bamboo-right">
+         <svg viewBox="0 0 100 800" fill="#6A7B53" xmlns="http://www.w3.org/2000/svg">
+            {/* Trunk 1 */}
+            <path d="M30,800 L35,800 Q40,400 35,0 L30,0 Q35,400 30,800 Z" opacity="0.8" />
+            <path d="M35,100 Q60,95 80,70 Q60,90 35,105 Z" />
+            <path d="M35,250 Q75,240 95,210 Q75,235 35,255 Z" />
+            <path d="M35,450 Q65,445 85,420 Q65,440 35,460 Z" />
+            <path d="M35,650 Q80,640 100,610 Q80,635 35,660 Z" />
+            {/* Trunk 2 */}
+            <path d="M10,800 L14,800 Q18,400 14,0 L10,0 Q14,400 10,800 Z" opacity="0.6" />
+            <path d="M14,180 Q40,175 55,150 Q40,170 14,185 Z" />
+            <path d="M14,380 Q45,370 60,340 Q45,365 14,385 Z" />
+            <path d="M14,580 Q40,575 55,550 Q40,570 14,585 Z" />
+         </svg>
+      </div>
+
+      <header className={`fixed top-0 left-0 right-0 z-[110] transition-all duration-500 border-b ${scrolled ? "bg-white/95 backdrop-blur-xl py-3 border-[#F0EBE1] shadow-lg" : "bg-gradient-to-b from-black/60 to-transparent border-transparent py-4 md:py-7"}`}>
+        <div className="mx-auto max-w-7xl px-4 md:px-8 flex items-center justify-between">
+          <Link to="/" className="group z-10">
+            <h1 className={`font-display text-xl md:text-3xl tracking-[0.2em] md:tracking-[0.3em] uppercase transition-colors duration-500 ${scrolled ? "text-[#1A1A1A]" : "text-white"} group-hover:text-[#6A7B53]`}>
+              Chinh Hương
             </h1>
           </Link>
 
@@ -46,9 +120,7 @@ export default function Layout({ children }) {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `text-[10px] uppercase tracking-[0.4em] font-bold transition-all duration-700 ${
-                    isActive ? "text-gold" : "text-gray-400 hover:text-white"
-                  }`
+                  `text-[11px] uppercase tracking-[0.4em] font-bold transition-all duration-300 ${scrolled ? (isActive ? "text-[#6A7B53]" : "text-[#1A1A1A]/60 hover:text-[#1A1A1A]") : (isActive ? "text-white" : "text-white/70 hover:text-white")}`
                 }
               >
                 {item.label}
@@ -56,22 +128,24 @@ export default function Layout({ children }) {
             ))}
           </nav>
 
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-5 md:gap-10">
             <Link to="/cart" className="relative group flex items-center gap-2">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-gray-300 group-hover:text-gold transition-colors">Giỏ hàng</span>
+              <svg className={`w-6 h-6 ${scrolled ? 'text-[#1A1A1A]' : 'text-white'} transition-colors duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
               {items.length > 0 && (
-                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gold text-[9px] text-black font-bold">
+                <span className="absolute -top-1.5 -right-1.5 flex h-4.5 w-4.5 items-center justify-center rounded-full bg-[#B8860B] text-[9px] text-white font-bold shadow-md animate-pulse">
                   {items.length}
                 </span>
               )}
             </Link>
 
             {token ? (
-              <Link to="/account" className="text-[10px] uppercase tracking-[0.3em] border border-white/20 px-6 py-2.5 hover:border-gold hover:text-gold transition-all duration-500">
+              <Link to="/account" className={`text-[10px] md:text-[11px] uppercase tracking-[0.3em] border px-5 py-2.5 transition-all duration-500 rounded-sm font-bold ${scrolled ? 'border-[#1A1A1A]/20 text-[#1A1A1A] hover:border-[#6A7B53] hover:text-[#6A7B53]' : 'border-white/30 text-white hover:border-white hover:bg-white/10'}`}>
                 Tài khoản
               </Link>
             ) : (
-               <Link to="/login" className="text-[10px] uppercase tracking-[0.3em] bg-gold px-8 py-2.5 text-black font-bold hover:bg-white hover:text-black transition-all duration-500">
+               <Link to="/login" className="text-[10px] md:text-[11px] uppercase tracking-[0.3em] bg-[#6A7B53] px-6 md:px-10 py-2.5 text-white font-extrabold hover:bg-[#1C2B1C] transition-all duration-500 rounded-sm shadow-md">
                 Đăng nhập
               </Link>
             )}
@@ -79,47 +153,55 @@ export default function Layout({ children }) {
         </div>
       </header>
 
-      <main className="">
+      <main className="relative z-10">
         {children}
       </main>
 
-      <footer className="bg-midnight text-premium-sand py-24">
-        <div className="mx-auto max-w-7xl px-6">
+      <footer className="bg-[#1C2B1C] text-[#FDFBF7] py-24 relative z-20 overflow-hidden border-t-8 border-[#6A7B53]">
+        {/* Footer bamboo decor overlay */}
+        <div className="absolute top-0 right-0 opacity-10 pointer-events-none w-80 h-80 -rotate-12 translate-x-20 -translate-y-20">
+           <svg viewBox="0 0 100 800" fill="currentColor"><path d="M30,800 L35,800 Q40,400 35,0 L30,0 Q35,400 30,800 Z" /><path d="M35,100 Q60,95 80,70 Q60,90 35,105 Z" /><path d="M35,450 Q65,445 85,420 Q65,440 35,460 Z" /></svg>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-6 relative z-10">
           <div className="grid gap-20 md:grid-cols-3">
             <div className="space-y-8">
-              <h3 className="font-display text-3xl tracking-widest uppercase text-gold">BCCH</h3>
-              <p className="text-xs leading-relaxed text-premium-sand/40 max-w-xs uppercase tracking-widest">
-                Symphony of traditional flavors and modern luxury.
+              <h3 className="font-display text-4xl tracking-[0.2em] font-bold text-[#D4AF37]">CHINH HƯƠNG</h3>
+              <p className="text-xs leading-[2.2] text-[#FDFBF7]/50 max-w-xs uppercase tracking-widest font-semibold">
+                Nơi hương vị truyền thống Bỉm Sơn được nâng tầm thành nghệ thuật ẩm thực mỹ vị.
               </p>
               <div className="flex gap-4">
-                <div className="w-8 h-px bg-gold/30"></div>
-                <div className="w-8 h-px bg-gold/30"></div>
+                <div className="w-16 h-px bg-[#D4AF37]/30"></div>
+                <div className="w-4 h-px bg-[#D4AF37]/30"></div>
               </div>
             </div>
 
             <div className="space-y-8">
-              <h4 className="text-[10px] uppercase tracking-[0.4em] font-bold text-premium-sand/30">Navigation</h4>
-              <ul className="space-y-4 text-[10px] uppercase tracking-[0.2em]">
-                <li><Link to="/menu" className="hover:text-gold transition-colors">Thực đơn</Link></li>
-                <li><Link to="/reviews" className="hover:text-gold transition-colors">Bình luận</Link></li>
-                <li><Link to="/about" className="hover:text-gold transition-colors">Về chúng tôi</Link></li>
+              <h4 className="text-[10px] uppercase tracking-[0.5em] font-extrabold text-[#FDFBF7]/30 border-b border-[#FDFBF7]/10 pb-4">Liên kết</h4>
+              <ul className="space-y-5 text-[10px] uppercase tracking-[0.3em] font-bold">
+                <li><Link to="/menu" className="hover:text-[#D4AF37] transition-all flex items-center gap-2"><span>→</span> Thực đơn</Link></li>
+                <li><Link to="/reviews" className="hover:text-[#D4AF37] transition-all flex items-center gap-2"><span>→</span> Lưu bút</Link></li>
+                <li><Link to="/about" className="hover:text-[#D4AF37] transition-all flex items-center gap-2"><span>→</span> Câu chuyện</Link></li>
               </ul>
             </div>
 
             <div className="space-y-8">
-              <h4 className="text-[10px] uppercase tracking-[0.4em] font-bold text-premium-sand/30">Address</h4>
-              <p className="text-xs text-premium-sand/50 leading-loose uppercase tracking-[0.1em]">
+              <h4 className="text-[10px] uppercase tracking-[0.5em] font-extrabold text-[#FDFBF7]/30 border-b border-[#FDFBF7]/10 pb-4">Địa điểm</h4>
+              <p className="text-xs text-[#FDFBF7]/60 leading-loose uppercase tracking-[0.15em] font-medium">
                 Số 8 Trần Phú, Phường Bỉm Sơn<br />Tỉnh Thanh Hóa, Việt Nam
               </p>
-              <p className="text-gold text-2xl font-light tracking-widest">(+84) 945 409 408</p>
+              <div className="pt-2">
+                <p className="text-[#D4AF37] text-3xl font-light tracking-widest">(+84) 945 409 408</p>
+                <p className="text-[10px] text-[#FDFBF7]/30 uppercase tracking-widest mt-2">Phục vụ từ 08:00 - 22:00</p>
+              </div>
             </div>
           </div>
           
-          <div className="mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-            <span className="text-[9px] uppercase tracking-[0.4em] text-premium-sand/20">&copy; 2024 Bún Chả Chinh Hương. All rights reserved.</span>
-            <div className="flex gap-8 text-[9px] uppercase tracking-[0.4em] text-premium-sand/20">
-              <span className="hover:text-gold cursor-pointer transition-colors">Privacy</span>
-              <span className="hover:text-gold cursor-pointer transition-colors">Terms</span>
+          <div className="mt-24 pt-10 border-t border-[#FDFBF7]/5 flex flex-col md:flex-row justify-between items-center gap-8">
+            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FDFBF7]/20 font-bold">&copy; 2026 Bún Chả Chinh Hương. Tròn Vị Quê Nhà.</span>
+            <div className="flex gap-10 text-[9px] uppercase tracking-[0.5em] text-[#FDFBF7]/20 font-bold">
+              <span className="hover:text-[#D4AF37] cursor-pointer transition-colors">Bảo mật</span>
+              <span className="hover:text-[#D4AF37] cursor-pointer transition-colors">Điều khoản</span>
             </div>
           </div>
         </div>

@@ -16,13 +16,13 @@ export default function Register() {
 
   useEffect(() => {
     setTimeout(() => {
-      document.querySelectorAll('.slide-presentation').forEach(el => el.classList.add('is-visible'));
+      document.querySelectorAll('.slide-reveal-up').forEach(el => el.classList.add('is-visible'));
     }, 100);
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setStatus("Đang xử lý...");
+    setStatus("Đang ghi tên vào sổ...");
     const payload = {
       name: form.name,
       email: form.email,
@@ -33,167 +33,171 @@ export default function Register() {
     const res = await registerUser(payload);
     if (res.status >= 200 && res.status < 300) {
       setProfileName(form.name);
-      setStatus("Đăng ký thành công. Đang chuyển tới đăng nhập...");
+      setStatus("Chúc mừng bạn đã là Hội viên. Đang mời bạn vào nếp nhà...");
       setTimeout(() => navigate("/login"), 1500);
       return;
     }
-    setStatus(res.data?.message || "Đăng ký thất bại. Xin vui lòng thử lại.");
+    setStatus(res.data?.message || "Đăng ký chưa thành. Mời bạn kiểm tra lại thông tin.");
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] flex flex-col lg:flex-row-reverse overflow-x-hidden font-sans text-gray-100">
+    <div className="min-h-screen bg-[#FDFBF7] flex flex-col lg:flex-row-reverse overflow-hidden font-sans text-[#1A1A1A]">
       <style>
         {`
-          .slide-presentation {
+          .slide-reveal-up {
             opacity: 0;
-            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transform: translateY(40px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
           }
-          .slide-from-right {
-            transform: translateX(150px);
-          }
-          .slide-from-left {
-            transform: translateX(-150px);
-          }
-          .slide-from-bottom {
-            transform: translateY(100px);
-          }
-          .is-visible.slide-from-right, .is-visible.slide-from-left, .is-visible.slide-from-bottom {
+          .is-visible {
             opacity: 1;
-            transform: translateX(0) translateY(0);
+            transform: translateY(0);
           }
-          .glass-box {
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-          }
-          .premium-input {
+          .custom-input-box {
             width: 100%;
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.15);
-            padding: 12px 0;
-            font-size: 1.1rem;
-            color: #fff;
-            transition: all 0.4s ease;
+            background: #FFFFFF;
+            border: 1px solid #F0EBE1;
+            border-radius: 12px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            color: #1A1A1A;
+            transition: all 0.3s ease;
+            font-weight: 600;
           }
-          .premium-input:focus {
+          .custom-input-box:focus {
             outline: none;
-            border-bottom: 2px solid #d4af37;
-            padding-left: 10px;
+            border-color: #6A7B53;
+            box-shadow: 0 0 0 4px rgba(106, 123, 83, 0.1);
           }
-          .premium-input::placeholder {
-            color: rgba(255, 255, 255, 0.25);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
+          .custom-input-box::placeholder {
+            color: rgba(0, 0, 0, 0.2);
+            font-size: 0.8rem;
+            font-weight: 700;
           }
         `}
       </style>
 
-      {/* Hero Image Section (Right Side on Desktop) */}
-      <div className="w-full lg:w-1/2 h-64 lg:h-screen relative slide-presentation slide-from-right">
-        <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-l from-transparent via-transparent to-[#050505] z-10"></div>
-        <img 
-          src="/images/z7699818623770_8a62f4a85b03b59c3ced823381b7ec55.jpg" 
-          alt="Registration Culinary Art" 
-          className="absolute inset-0 w-full h-full object-cover filter brightness-[0.7] contrast-125"
-        />
-        <div className="absolute top-10 right-10 z-20 hidden lg:block">
-          <Link to="/" className="text-gold uppercase tracking-[0.4em] font-bold text-sm hover:text-white transition-colors">
-            X Đóng
-          </Link>
+      {/* Hero Content Section */}
+      <div className="w-full lg:w-1/2 h-64 lg:h-screen relative slide-reveal-up overflow-hidden lg:p-12">
+        <div className="absolute inset-0 bg-[#FDFBF7] z-0"></div>
+        <div className="relative h-full w-full rounded-[40px] overflow-hidden shadow-2xl border-4 border-white lg:border-8">
+            <img 
+              src="/images/z7699818623770_8a62f4a85b03b59c3ced823381b7ec55.jpg" 
+              className="w-full h-full object-cover filter brightness-[0.9] sepia-[0.15]" 
+              alt="Traditional Heritage" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-black/60 to-transparent"></div>
+            <div className="absolute bottom-10 left-10 right-10 z-20">
+               <h2 className="font-display text-4xl md:text-6xl text-white mb-4 font-bold drop-shadow-lg">Gia Nhập <br/> <span className="italic text-[#D4AF37]">Hội Viên</span></h2>
+               <p className="text-white/80 text-[10px] md:text-sm tracking-[0.4em] uppercase font-bold">Nhận ưu đãi trọn vị quê nhà</p>
+            </div>
+            <div className="absolute top-10 right-10 z-30 hidden lg:block">
+               <Link to="/" className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white font-bold hover:bg-white/20 transition-all border border-white/20">
+                  ✕
+               </Link>
+            </div>
         </div>
       </div>
 
-      {/* Form Section (Left Side on Desktop) */}
-      <div className="w-full lg:w-1/2 min-h-screen flex items-center justify-center p-6 lg:p-16 relative">
-        <div className="w-full max-w-xl glass-box p-10 lg:p-16 rounded-2xl shadow-2xl relative z-20 -mt-20 lg:mt-0 slide-presentation slide-from-bottom">
+      {/* Register Form Section */}
+      <div className="w-full lg:w-1/2 min-h-screen flex items-center justify-center p-6 md:p-12 lg:p-24 relative slide-reveal-up" style={{transitionDelay: '200ms'}}>
+        <div className="w-full max-w-lg z-20">
           <div className="mb-12">
-            <span className="text-xs uppercase tracking-[0.6em] text-gold font-bold mb-4 block">Membership</span>
-            <h2 className="font-display text-5xl text-white font-semibold mb-4">Gia Nhập</h2>
-            <p className="text-gray-400 text-sm leading-relaxed">Đăng ký thành viên để trải nghiệm hệ thống đặt bàn và nhận ưu đãi đặc quyền tối thượng.</p>
+            <Link to="/" className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.4em] font-extrabold text-[#6A7B53] mb-10 lg:hidden">
+               ← Quay Lại
+            </Link>
+            <span className="text-[10px] uppercase tracking-[0.6em] text-[#B8860B] font-extrabold mb-4 block">Membership Registration</span>
+            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl text-[#1A1A1A] font-bold mb-6">Đăng ký</h2>
+            <p className="text-[#1A1A1A]/50 text-xs md:text-sm leading-relaxed font-bold uppercase tracking-wider">Mở tài khoản để đặt món nhanh chóng và tích lũy điểm thưởng từ Chinh Hương.</p>
           </div>
 
-          <form className="space-y-8 lg:space-y-10" onSubmit={handleSubmit}>
-            <div className="relative">
-              <input
-                id="name"
-                className="premium-input"
-                placeholder="Họ và tên của bạn"
-                value={form.name}
-                onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-                required
-              />
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div className="grid md:grid-cols-1 gap-6">
+               <div className="space-y-1.5">
+                  <label className="text-[9px] uppercase tracking-widest text-[#1A1A1A]/40 font-extrabold ml-1">Tên gọi thân mật</label>
+                  <input
+                    id="name"
+                    className="custom-input-box"
+                    placeholder="Nguyễn Văn An"
+                    value={form.name}
+                    onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
+                    required
+                  />
+               </div>
             </div>
             
-            <div className="relative">
+            <div className="space-y-1.5">
+              <label className="text-[9px] uppercase tracking-widest text-[#1A1A1A]/40 font-extrabold ml-1">Thư điện tử (Email)</label>
               <input
                 id="email"
                 type="email"
-                className="premium-input"
-                placeholder="Địa chỉ Email"
+                className="custom-input-box"
+                placeholder="an.nguyen@vidu.com"
                 value={form.email}
                 onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
                 required
               />
             </div>
             
-            <div className="relative">
+            <div className="space-y-1.5">
+              <label className="text-[9px] uppercase tracking-widest text-[#1A1A1A]/40 font-extrabold ml-1">Mật mã truy cập</label>
               <input
                 id="password"
                 type="password"
-                className="premium-input"
-                placeholder="Tạo mật khẩu"
+                className="custom-input-box"
+                placeholder="Tối thiểu 6 ký tự"
                 value={form.password}
                 onChange={(event) => setForm((prev) => ({ ...prev, password: event.target.value }))}
                 required
               />
             </div>
             
-            <div className="grid grid-cols-2 gap-8">
-              <div className="relative">
+            <div className="grid grid-cols-2 gap-6">
+              <div className="space-y-1.5">
+                <label className="text-[9px] uppercase tracking-widest text-[#1A1A1A]/40 font-extrabold ml-1">Độ tuổi</label>
                 <input
                   id="age"
                   type="number"
                   min="1"
-                  max="150"
-                  className="premium-input"
-                  placeholder="Độ tuổi"
+                  className="custom-input-box"
+                  placeholder="Ví dụ: 25"
                   value={form.age}
                   onChange={(event) => setForm((prev) => ({ ...prev, age: event.target.value }))}
                 />
               </div>
-              <div className="relative">
+              <div className="space-y-1.5">
+                <label className="text-[9px] uppercase tracking-widest text-[#1A1A1A]/40 font-extrabold ml-1">Địa chỉ (Tỉnh/Thành)</label>
                 <input
                   id="address"
-                  className="premium-input"
-                  placeholder="Tỉnh/Thành"
+                  className="custom-input-box"
+                  placeholder="Thanh Hóa"
                   value={form.address}
                   onChange={(event) => setForm((prev) => ({ ...prev, address: event.target.value }))}
                 />
               </div>
             </div>
             
-            <button 
-              className="w-full py-6 mt-8 bg-transparent border-2 border-gold text-gold text-sm uppercase tracking-[0.4em] font-extrabold hover:bg-gold hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(212,175,55,0.15)] rounded-sm" 
-              type="submit"
-            >
-              Hoàn Tất Đăng Ký
-            </button>
+            <div className="pt-6">
+               <button 
+                className="w-full py-5 bg-[#1A1A1A] text-white text-[10px] uppercase tracking-[0.4em] font-extrabold hover:bg-[#6A7B53] transition-all duration-500 shadow-xl rounded-xl" 
+                type="submit"
+               >
+                Đăng Ký Hội Viên
+               </button>
+            </div>
           </form>
 
           {status && (
-            <div className="mt-8 p-5 bg-black/40 border-l-4 border-gold">
-              <p className={`text-sm font-semibold ${status.includes('thất bại') ? 'text-red-400' : 'text-gold'}`}>{status}</p>
+            <div className={`mt-8 p-4 rounded-xl border ${status.includes('thất bại') || status.includes('chưa thành') ? 'bg-red-50 border-red-100 text-red-600' : 'bg-[#6A7B53]/5 border-[#6A7B53]/10 text-[#6A7B53]'} text-[10px] font-bold uppercase tracking-widest text-center`}>
+              {status}
             </div>
           )}
 
-          <div className="mt-12 text-center">
-            <p className="text-gray-400 text-sm font-medium">
-              Bạn đã là Hội viên?{" "}
-              <Link to="/login" className="text-white font-bold uppercase tracking-wider hover:text-gold transition-colors ml-2 border-b border-white hover:border-gold pb-1">
-                Đăng Nhập
+          <div className="mt-12 text-center border-t border-[#F0EBE1] pt-10">
+            <p className="text-[#1A1A1A]/40 text-[10px] font-bold uppercase tracking-widest">
+              Bạn đã có tài khoản rồi?
+              <Link to="/login" className="text-[#6A7B53] font-extrabold border-b border-[#6A7B53]/40 hover:border-[#6A7B53] transition-all ml-3">
+                Đăng nhập ngay
               </Link>
             </p>
           </div>
