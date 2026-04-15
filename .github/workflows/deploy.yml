@@ -2,7 +2,7 @@ name: Deploy Production
 
 on:
   push:
-    branches: [production]
+    branches: [main]
 
 jobs:
   deploy:
@@ -20,7 +20,8 @@ jobs:
           script: |
             set -e
             cd /home/buncha-app
-            git fetch origin production
-            git checkout production
-            git pull --ff-only origin production
+            git fetch origin main
+            git checkout main
+            git pull --ff-only origin main
             docker compose up -d --build
+
