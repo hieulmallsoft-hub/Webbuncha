@@ -36,6 +36,12 @@ class OrderServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private NotificationService notificationService;
+
+    @Mock
+    private PushNotificationService pushNotificationService;
+
     @InjectMocks
     private OrderService orderService;
 

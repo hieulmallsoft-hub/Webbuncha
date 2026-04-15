@@ -25,12 +25,15 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final NotificationService notificationService;
+    private final PushNotificationService pushNotificationService;
 
     public OrderService(OrderRepository orderRepository, UserRepository userRepository,
-            NotificationService notificationService) {
+            NotificationService notificationService,
+            PushNotificationService pushNotificationService) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
         this.notificationService = notificationService;
+        this.pushNotificationService = pushNotificationService;
     }
 
     public Page<Order> getOrders(String userEmail, boolean isAdmin, Long userIdFilter,
@@ -78,6 +81,7 @@ public class OrderService {
         normalizeByType(order);
         Order saved = this.orderRepository.save(order);
         notificationService.createOrderNotification(saved);
+        pushNotificationService.sendOrderCreatedNotification(saved);
         return saved;
     }
 

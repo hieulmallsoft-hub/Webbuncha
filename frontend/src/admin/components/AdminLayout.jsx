@@ -2,8 +2,11 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar.jsx";
 import Topbar from "./Topbar.jsx";
 import ToastContainer from "./ToastContainer.jsx";
+import { useAdminPushNotifications } from "../hooks/useAdminPushNotifications.js";
 
 export default function AdminLayout() {
+  useAdminPushNotifications();
+
   return (
     <div className="admin-shell restaurant-play lux-shell">
       <div className="restaurant-decor admin-decor" aria-hidden="true">

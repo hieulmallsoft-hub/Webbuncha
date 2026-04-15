@@ -80,3 +80,21 @@ BEGIN
     END IF;
 END $$;
 __END__
+CREATE TABLE IF NOT EXISTS public.device_tokens (
+    id BIGSERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    token VARCHAR(1024) NOT NULL,
+    platform VARCHAR(30) NOT NULL,
+    user_agent VARCHAR(1000),
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    last_seen_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE,
+    updated_at TIMESTAMP WITH TIME ZONE,
+    CONSTRAINT uk_device_tokens_token UNIQUE (token),
+    CONSTRAINT fk_device_tokens_user FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE
+);
+__END__
+CREATE INDEX IF NOT EXISTS idx_device_tokens_user_id ON public.device_tokens (user_id);
+__END__
+CREATE INDEX IF NOT EXISTS idx_device_tokens_enabled ON public.device_tokens (enabled);
+__END__

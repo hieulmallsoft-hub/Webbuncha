@@ -6,8 +6,8 @@ export default function Topbar() {
   const navigate = useNavigate();
   const profile = useAuthStore((state) => state.profile);
 
-  const handleLogout = () => {
-    logoutAdmin();
+  const handleLogout = async () => {
+    await logoutAdmin();
     navigate("/admin/login");
   };
 

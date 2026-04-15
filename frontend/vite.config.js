@@ -9,6 +9,7 @@ const apiPrefixes = [
   "/products",
   "/users",
   "/notifications",
+  "/push",
   "/uploads",
   "/health"
 ];

@@ -65,6 +65,7 @@ public class SecurityConfig {
                                 "/admin/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/notifications/stream").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/push/public-config").permitAll()
                         .requestMatchers(HttpMethod.GET, "/categories/**", "/products/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt
