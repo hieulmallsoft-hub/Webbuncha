@@ -4,6 +4,7 @@ import { useCart } from "../context/CartContext.jsx";
 import { useToast } from "../context/ToastContext.jsx";
 import { getProductById } from "../lib/api.js";
 import LoadingOverlay from "../components/LoadingOverlay.jsx";
+import { formatPriceVND } from "../utils/price.js";
 
 const normalizePrice = (value) => {
   if (value === null || value === undefined) return 0;
@@ -142,7 +143,7 @@ export default function ItemDetail() {
                 </div>
                 <div className="text-left md:text-right">
                    <p className="text-[10px] uppercase tracking-[0.3em] text-[#8B7355] font-bold mb-1">Giá phục vụ</p>
-                   <p className="text-4xl md:text-5xl font-display text-[#B8860B] font-bold">${item.price.toFixed(2)}</p>
+                   <p className="text-4xl md:text-5xl font-display text-[#B8860B] font-bold">{formatPriceVND(item.price)}</p>
                 </div>
               </div>
 
@@ -218,7 +219,7 @@ export default function ItemDetail() {
                   <div className="pt-2">
                     <div className="flex justify-between items-end mb-8">
                        <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-[#1A1A1A]/40">Tổng tính</span>
-                       <span className="text-3xl font-display font-bold text-[#B8860B]">${(item.price * quantity).toFixed(2)}</span>
+                       <span className="text-3xl font-display font-bold text-[#B8860B]">{formatPriceVND(item.price * quantity)}</span>
                     </div>
 
                     <button 

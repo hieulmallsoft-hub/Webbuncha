@@ -4,6 +4,7 @@ import { getOrders } from "../lib/api.js";
 import { clearToken, getProfileFromToken, isSessionInvalidResponse, SESSION_EXPIRED_MESSAGE } from "../lib/auth.js";
 import { useToast } from "../context/ToastContext.jsx";
 import LoadingOverlay from "../components/LoadingOverlay.jsx";
+import { formatPriceVND } from "../utils/price.js";
 
 const statusMeta = {
   PENDING: {
@@ -188,7 +189,7 @@ export default function Orders() {
                        <div className="flex items-end justify-between px-2">
                           <div>
                              <p className="text-[9px] uppercase tracking-widest font-extrabold text-[#1A1A1A]/40">Thành tiền</p>
-                             <p className="text-3xl font-display font-bold text-[#B8860B] mt-1">${Number(order.totalPrice || 0).toFixed(2)}</p>
+                             <p className="text-3xl font-display font-bold text-[#B8860B] mt-1">{formatPriceVND(order.totalPrice || 0)}</p>
                           </div>
                           <button 
                             className="bg-[#FAFAFA] border border-[#F0EBE1] text-[9px] uppercase tracking-widest font-bold px-5 py-2.5 rounded-xl hover:bg-[#6A7B53] hover:text-white hover:border-[#6A7B53] transition-all"

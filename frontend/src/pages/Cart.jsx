@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useEffect } from "react";
+import { formatPriceVND } from "../utils/price.js";
 
 export default function Cart() {
   const { items, updateQty, removeItem, summary } = useCart();
@@ -91,7 +92,7 @@ export default function Cart() {
                           <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] font-bold text-[#6A7B53] mb-3">{item.category}</p>
                           <div className="flex items-center justify-center sm:justify-start gap-3">
                              <span className="text-[10px] uppercase font-bold text-[#1A1A1A]/40">Đơn giá:</span>
-                             <span className="text-sm font-bold text-[#1A1A1A]/80">${item.price.toFixed(2)}</span>
+                             <span className="text-sm font-bold text-[#1A1A1A]/80">{formatPriceVND(item.price)}</span>
                           </div>
                        </div>
 
@@ -115,7 +116,7 @@ export default function Cart() {
                           </div>
 
                           <div className="w-24 text-center sm:text-right font-display text-xl md:text-2xl font-bold text-[#B8860B]">
-                             ${(item.price * item.qty).toFixed(2)}
+                             {formatPriceVND(item.price * item.qty)}
                           </div>
 
                           <button 
@@ -142,16 +143,16 @@ export default function Cart() {
                   <div className="space-y-6 text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#1A1A1A]/60 font-bold">
                      <div className="flex justify-between items-center">
                         <span>Giá Gốc</span>
-                        <span className="text-[#1A1A1A] font-extrabold text-sm md:text-base">${summary.subtotal.toFixed(2)}</span>
+                        <span className="text-[#1A1A1A] font-extrabold text-sm md:text-base">{formatPriceVND(summary.subtotal)}</span>
                      </div>
                      <div className="flex justify-between items-center">
                         <span>Phí phục vụ</span>
-                        <span className="text-[#1A1A1A] font-extrabold text-sm md:text-base">${summary.fee.toFixed(2)}</span>
+                        <span className="text-[#1A1A1A] font-extrabold text-sm md:text-base">{formatPriceVND(summary.fee)}</span>
                      </div>
                      <div className="w-full h-px bg-[#F0EBE1] my-4"></div>
                      <div className="flex justify-between items-end">
                         <span className="font-display text-lg text-[#1A1A1A]">Tổng Tiền</span>
-                        <span className="text-3xl md:text-4xl font-display font-bold text-[#B8860B]">${summary.total.toFixed(2)}</span>
+                        <span className="text-3xl md:text-4xl font-display font-bold text-[#B8860B]">{formatPriceVND(summary.total)}</span>
                      </div>
                   </div>
 

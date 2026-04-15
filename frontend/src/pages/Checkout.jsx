@@ -5,6 +5,7 @@ import { useToast } from "../context/ToastContext.jsx";
 import { createOrder } from "../lib/api.js";
 import { clearToken, isSessionInvalidResponse, SESSION_EXPIRED_MESSAGE } from "../lib/auth.js";
 import LocationMap from "../components/LocationMap.jsx";
+import { formatPriceVND } from "../utils/price.js";
 
 const paymentOptions = [
   { value: "COD", label: "Thanh toán khi nhận món" },
@@ -430,7 +431,7 @@ export default function Checkout() {
                   <div key={item.id} className="flex flex-col border-b border-[#F0EBE1] pb-3">
                     <div className="flex justify-between items-start text-[#1A1A1A]">
                       <span className="font-medium pr-4 text-sm md:text-base">{item.name}</span>
-                      <span className="text-[#B8860B] font-semibold whitespace-nowrap">${(item.price * item.qty).toFixed(2)}</span>
+                      <span className="text-[#B8860B] font-semibold whitespace-nowrap">{formatPriceVND(item.price * item.qty)}</span>
                     </div>
                     <span className="text-[#1A1A1A]/50 text-[10px] md:text-xs mt-1 uppercase tracking-wider">Số lượng: {item.qty}</span>
                   </div>
@@ -441,17 +442,17 @@ export default function Checkout() {
             <div className="mt-6 md:mt-8 space-y-3 text-xs md:text-sm text-[#1A1A1A]/70 pt-4 border-t border-[#F0EBE1] pb-4 border-b">
               <div className="flex justify-between items-center">
                 <span>Tạm tính</span>
-                <span className="text-[#1A1A1A] font-medium">${summary.subtotal.toFixed(2)}</span>
+                <span className="text-[#1A1A1A] font-medium">{formatPriceVND(summary.subtotal)}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span>{orderType === "DELIVERY" ? "Phí giao hàng" : "Phí dịch vụ"}</span>
-                <span className="text-[#1A1A1A] font-medium">${summary.fee.toFixed(2)}</span>
+                <span className="text-[#1A1A1A] font-medium">{formatPriceVND(summary.fee)}</span>
               </div>
             </div>
             
             <div className="mt-4 flex justify-between items-end">
                <span className="text-[10px] md:text-xs uppercase tracking-widest text-[#8B7355] font-semibold">Tổng thanh toán</span>
-               <span className="text-2xl md:text-3xl font-display text-[#B8860B]">${summary.total.toFixed(2)}</span>
+               <span className="text-2xl md:text-3xl font-display text-[#B8860B]">{formatPriceVND(summary.total)}</span>
             </div>
 
             <div className="mt-6 md:mt-8 bg-[#FAFAFA] p-4 md:p-5 rounded-xl border border-[#F0EBE1] text-[10px] md:text-xs text-[#1A1A1A]/80 space-y-3 relative overflow-hidden group">

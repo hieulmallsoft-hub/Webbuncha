@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getProducts } from "../lib/api.js";
+import { formatPriceVND } from "../utils/price.js";
 
 const normalizePrice = (value) => {
   if (value === null || value === undefined) {
@@ -245,7 +246,7 @@ export default function Home() {
                     </div>
                     
                     <h4 className="font-display text-2xl md:text-3xl mb-3 text-[#1A1A1A] font-bold group-hover:text-[#6A7B53] transition-colors">{item.name}</h4>
-                    <p className="text-[#1A1A1A]/60 font-semibold mb-4">${(item.price).toFixed(2)}</p>
+                    <p className="text-[#1A1A1A]/60 font-semibold mb-4">{formatPriceVND(item.price)}</p>
                     <p className="text-[11px] md:text-sm text-[#1A1A1A]/70 leading-relaxed mb-6 md:mb-8 line-clamp-2 md:line-clamp-3 font-medium bg-[#FAFAFA] p-3 rounded-lg border border-[#F0EBE1]">{item.description}</p>
                     
                     <Link to={`/menu/${item.id}`} className="inline-flex items-center gap-2 md:gap-3 text-[10px] uppercase tracking-[0.2em] font-bold text-[#1A1A1A] hover:text-[#6A7B53] transition-colors">
