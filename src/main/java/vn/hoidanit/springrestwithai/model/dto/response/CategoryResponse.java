@@ -1,10 +1,15 @@
 package vn.hoidanit.springrestwithai.model.dto.response;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.Instant;
 
 import vn.hoidanit.springrestwithai.model.Category;
 
-public class CategoryResponse {
+public class CategoryResponse implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String name;

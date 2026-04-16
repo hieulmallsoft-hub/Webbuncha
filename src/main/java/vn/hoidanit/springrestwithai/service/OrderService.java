@@ -66,24 +66,33 @@ public class OrderService {
         }
         return order;
     }
+@Transactional
+public Order createOrder(String userEmail, OrderRequest request) {
+    validateOrderRequest(request);
 
-    public Order createOrder(String userEmail, OrderRequest request) {
-        validateOrderRequest(request);
+    User currentUser = getUserByEmail(userEmail);
+    Order order = new Order();
+    order.setUser(currentUser);
+    applyRequest(order, request);
 
-        User currentUser = getUserByEmail(userEmail);
-        Order order = new Order();
-        order.setUser(currentUser);
-        applyRequest(order, request);
-        if (order.getPaymentMethod() == null) {
-            order.setPaymentMethod(Order.PaymentMethod.COD);
-        }
-        order.setStatus(Order.OrderStatus.PENDING);
-        normalizeByType(order);
-        Order saved = this.orderRepository.save(order);
-        notificationService.createOrderNotification(saved);
-        pushNotificationService.sendOrderCreatedNotification(saved);
-        return saved;
+    if (order.getPaymentMethod() == null) {
+        order.setPaymentMethod(Order.PaymentMethod.COD);
     }
+
+    order.setStatus(Order.OrderStatus.PENDING);
+    normalizeByType(order);
+
+    Order saved = this.orderRepository.save(order);
+    notificationService.createOrderNotification(saved);
+
+    try {
+        pushNotificationService.sendOrderCreatedNotification(saved);
+    } catch (Exception e) {
+        // log lỗi, không làm fail order
+    }
+
+    return saved;
+}
 
     public Order updateOrder(Long id, OrderRequest request, String userEmail, boolean isAdmin) {
         Order existing = getOrderByIdInternal(id);

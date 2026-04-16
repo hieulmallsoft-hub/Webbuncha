@@ -2,7 +2,6 @@ package vn.hoidanit.springrestwithai.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,16 +33,14 @@ public class CategoryController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<CategoryResponse>>> getAllCategories() {
-        List<CategoryResponse> responses = categoryService.getAllCategories().stream()
-                .map(CategoryResponse::from)
-                .collect(Collectors.toList());
+        List<CategoryResponse> responses = categoryService.getAllCategoryResponses();
         return ResponseEntity.ok(ApiResponse.success("Get categories success", responses));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<CategoryResponse>> getCategoryById(@PathVariable Long id) {
-        Category category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(ApiResponse.success("Get category success", CategoryResponse.from(category)));
+        CategoryResponse response = categoryService.getCategoryResponseById(id);
+        return ResponseEntity.ok(ApiResponse.success("Get category success", response));
     }
 
     @PostMapping

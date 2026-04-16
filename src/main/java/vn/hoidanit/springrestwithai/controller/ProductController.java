@@ -2,7 +2,6 @@ package vn.hoidanit.springrestwithai.controller;
 
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -36,16 +35,14 @@ public class ProductController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProducts(
             @RequestParam(required = false) Long categoryId) {
-        List<ProductResponse> responses = productService.getProducts(categoryId).stream()
-                .map(ProductResponse::from)
-                .collect(Collectors.toList());
+        List<ProductResponse> responses = productService.getProductResponses(categoryId);
         return ResponseEntity.ok(ApiResponse.success("Get products success", responses));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProductById(@PathVariable Long id) {
-        Product product = productService.getProductById(id);
-        return ResponseEntity.ok(ApiResponse.success("Get product success", ProductResponse.from(product)));
+        ProductResponse response = productService.getProductResponseById(id);
+        return ResponseEntity.ok(ApiResponse.success("Get product success", response));
     }
 
     @PostMapping
