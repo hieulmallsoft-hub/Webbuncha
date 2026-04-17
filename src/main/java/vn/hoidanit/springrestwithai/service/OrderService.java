@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import vn.hoidanit.springrestwithai.exception.InvalidSessionException;
 import vn.hoidanit.springrestwithai.exception.ResourceNotFoundException;
@@ -66,33 +67,33 @@ public class OrderService {
         }
         return order;
     }
-@Transactional
-public Order createOrder(String userEmail, OrderRequest request) {
-    validateOrderRequest(request);
+    @Transactional
+    public Order createOrder(String userEmail, OrderRequest request) {
+        validateOrderRequest(request);
 
-    User currentUser = getUserByEmail(userEmail);
-    Order order = new Order();
-    order.setUser(currentUser);
-    applyRequest(order, request);
+        User currentUser = getUserByEmail(userEmail);
+        Order order = new Order();
+        order.setUser(currentUser);
+        applyRequest(order, request);
 
-    if (order.getPaymentMethod() == null) {
-        order.setPaymentMethod(Order.PaymentMethod.COD);
+        if (order.getPaymentMethod() == null) {
+            order.setPaymentMethod(Order.PaymentMethod.COD);
+        }
+
+        order.setStatus(Order.OrderStatus.PENDING);
+        normalizeByType(order);
+
+        Order saved = this.orderRepository.save(order);
+        notificationService.createOrderNotification(saved);
+
+        try {
+            pushNotificationService.sendOrderCreatedNotification(saved);
+        } catch (Exception e) {
+            // log loi, khong lam fail order
+        }
+
+        return saved;
     }
-
-    order.setStatus(Order.OrderStatus.PENDING);
-    normalizeByType(order);
-
-    Order saved = this.orderRepository.save(order);
-    notificationService.createOrderNotification(saved);
-
-    try {
-        pushNotificationService.sendOrderCreatedNotification(saved);
-    } catch (Exception e) {
-        // log lỗi, không làm fail order
-    }
-
-    return saved;
-}
 
     public Order updateOrder(Long id, OrderRequest request, String userEmail, boolean isAdmin) {
         Order existing = getOrderByIdInternal(id);

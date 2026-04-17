@@ -48,7 +48,9 @@ public class SecurityConfig {
                 .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/index.html", "/favicon.ico", "/assets/**", "/images/**", "/uploads/**").permitAll()
+                        .requestMatchers("/", "/index.html", "/favicon.ico", "/assets/**", "/images/**", "/uploads/**",
+                                "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+                        .permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/health",
                                 "/menu",
