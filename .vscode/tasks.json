@@ -28,10 +28,48 @@
             "problemMatcher": []
         },
         {
+            "label": "mvn-test-compile",
+            "type": "shell",
+            "command": "cmd.exe",
+            "args": [
+                "/c",
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q test-compile) else (call mvn -q test-compile)"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\web bun cha"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "mvn-test-classpath-jar",
+            "type": "shell",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "scripts\\create-test-classpath-jar.ps1"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}\\web bun cha"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "maven-test-prepare",
+            "dependsOn": [
+                "mvn-test-compile",
+                "mvn-copy-deps",
+                "mvn-test-classpath-jar"
+            ],
+            "dependsOrder": "sequence",
+            "problemMatcher": []
+        },
+        {
             "label": "maven-prepare",
             "dependsOn": [
-                "mvn-package",
-                "mvn-copy-deps"
+                "mvn-package"
             ],
             "dependsOrder": "sequence",
             "problemMatcher": []

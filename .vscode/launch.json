@@ -8,11 +8,7 @@
             "mainClass": "vn.hoidanit.springrestwithai.SpringRestWithAiApplication",
             "projectName": "spring-rest-with-ai",
             "preLaunchTask": "maven-prepare",
-            "classPaths": [
-                "${workspaceFolder}/web bun cha/target/classes",
-                "${workspaceFolder}/web bun cha/target/dependency/*"
-            ],
-            "modulePaths": [],
+            "shortenCommandLine": "jarmanifest",
             "args": "",
             "env": {
                 "SPRING_PROFILES_ACTIVE": "local"
@@ -27,11 +23,7 @@
             "mainClass": "vn.hoidanit.springrestwithai.SpringRestWithAiApplication",
             "projectName": "spring-rest-with-ai",
             "preLaunchTask": "maven-prepare",
-            "classPaths": [
-                "${workspaceFolder}/web bun cha/target/classes",
-                "${workspaceFolder}/web bun cha/target/dependency/*"
-            ],
-            "modulePaths": [],
+            "shortenCommandLine": "jarmanifest",
             "args": "",
             "envFile": "${workspaceFolder}/web bun cha/.env"
         }
