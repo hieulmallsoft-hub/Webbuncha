@@ -7,7 +7,7 @@ import ToastContainer from "./ToastContainer.jsx";
 const navItems = [
   { to: "/", label: "Trang chủ" },
   { to: "/menu", label: "Thực đơn" },
-  { to: "/about", label: "Câu Chuyện" },
+  { to: "/about", label: "Câu chuyện" },
   { to: "/reviews", label: "Bình luận" }
 ];
 
@@ -15,6 +15,7 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const { items } = useCart();
   const token = getToken();
+  const headerNavItems = token ? [...navItems, { to: "/history", label: "Đơn hàng" }] : navItems;
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -107,20 +108,20 @@ export default function Layout({ children }) {
       </div>
 
       <header className={`fixed top-0 left-0 right-0 z-[110] transition-all duration-500 border-b ${scrolled ? "bg-[#FFFDF8]/95 backdrop-blur-xl py-3 border-[#E8D8C8] shadow-lg shadow-[#2D1A11]/5" : "bg-gradient-to-b from-black/70 to-transparent border-transparent py-4 md:py-7"}`}>
-        <div className="mx-auto max-w-7xl px-4 md:px-8 flex items-center justify-between">
-          <Link to="/" className="group z-10">
-            <h1 className={`font-display text-xl md:text-3xl tracking-[0.2em] md:tracking-[0.3em] uppercase transition-colors duration-500 ${scrolled ? "text-[#C84B31]" : "text-[#FDF5E6] drop-shadow-md"} group-hover:text-[#D97706]`}>
+        <div className="mx-auto max-w-7xl px-4 md:px-6 xl:px-8 flex items-center justify-between gap-6">
+          <Link to="/" className="group z-10 shrink-0">
+            <h1 className={`font-display text-lg xl:text-3xl tracking-[0.14em] xl:tracking-[0.28em] uppercase whitespace-nowrap transition-colors duration-500 ${scrolled ? "text-[#C84B31]" : "text-[#FDF5E6] drop-shadow-md"} group-hover:text-[#D97706]`}>
               Chinh Hương
             </h1>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-12">
-            {navItems.map((item) => (
+          <nav className="hidden lg:flex items-center gap-8 xl:gap-12 min-w-0">
+            {headerNavItems.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `text-[11px] uppercase tracking-[0.4em] font-extrabold transition-all duration-300 ${scrolled ? (isActive ? "text-[#C84B31]" : "text-[#3E2723]/60 hover:text-[#C84B31]") : (isActive ? "text-[#D97706] drop-shadow-md" : "text-[#FDF5E6]/80 hover:text-[#D97706]")}`
+                  `whitespace-nowrap text-[10px] xl:text-[11px] uppercase tracking-[0.24em] xl:tracking-[0.34em] font-extrabold transition-all duration-300 ${scrolled ? (isActive ? "text-[#C84B31]" : "text-[#3E2723]/60 hover:text-[#C84B31]") : (isActive ? "text-[#D97706] drop-shadow-md" : "text-[#FDF5E6]/80 hover:text-[#D97706]")}`
                 }
               >
                 {item.label}
@@ -128,7 +129,7 @@ export default function Layout({ children }) {
             ))}
           </nav>
 
-          <div className="flex items-center gap-5 md:gap-10">
+          <div className="flex items-center gap-4 xl:gap-8 shrink-0">
             <Link to="/cart" className="relative group flex items-center gap-2">
               <svg className={`w-6 h-6 ${scrolled ? 'text-[#3E2723] group-hover:text-[#C84B31]' : 'text-white group-hover:text-[#D97706]'} transition-colors duration-300`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -141,11 +142,11 @@ export default function Layout({ children }) {
             </Link>
 
             {token ? (
-              <Link to="/account" className={`text-[10px] md:text-[11px] uppercase tracking-[0.3em] border px-5 py-2.5 transition-all duration-500 rounded-sm font-bold ${scrolled ? 'border-[#3E2723]/20 text-[#3E2723] hover:border-[#C84B31] hover:text-[#C84B31]' : 'border-white/30 text-white hover:border-[#D97706] hover:text-[#D97706] hover:bg-white/10'}`}>
+              <Link to="/account" className={`whitespace-nowrap text-[10px] md:text-[11px] uppercase tracking-[0.18em] xl:tracking-[0.28em] border px-4 xl:px-5 py-2.5 transition-all duration-500 rounded-sm font-bold ${scrolled ? 'border-[#3E2723]/20 text-[#3E2723] hover:border-[#C84B31] hover:text-[#C84B31]' : 'border-white/30 text-white hover:border-[#D97706] hover:text-[#D97706] hover:bg-white/10'}`}>
                 Tài khoản
               </Link>
             ) : (
-               <Link to="/login" className={`text-[10px] md:text-[11px] uppercase tracking-[0.3em] ${scrolled ? 'bg-[#C84B31] text-[#FDF5E6] hover:bg-[#A03520]' : 'bg-[#D97706] text-[#2D1A11] hover:bg-[#FDF5E6] hover:text-[#C84B31]'} px-6 md:px-10 py-2.5 font-extrabold transition-all duration-500 rounded-md shadow-md ring-2 ring-transparent hover:ring-offset-2 hover:ring-[#C84B31]/40`}>
+               <Link to="/login" className={`whitespace-nowrap text-[10px] md:text-[11px] uppercase tracking-[0.18em] xl:tracking-[0.28em] ${scrolled ? 'bg-[#C84B31] text-[#FDF5E6] hover:bg-[#A03520]' : 'bg-[#D97706] text-[#2D1A11] hover:bg-[#FDF5E6] hover:text-[#C84B31]'} px-5 md:px-8 xl:px-10 py-2.5 font-extrabold transition-all duration-500 rounded-md shadow-md ring-2 ring-transparent hover:ring-offset-2 hover:ring-[#C84B31]/40`}>
                 Đăng nhập
               </Link>
             )}
@@ -199,7 +200,7 @@ export default function Layout({ children }) {
           </div>
           
           <div className="mt-24 pt-10 border-t border-[#FDF5E6]/10 flex flex-col md:flex-row justify-between items-center gap-8">
-            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FDF5E6]/40 font-bold">&copy; 2026 Bún Chả Chinh Hương. Đầm Ấm Tình Quê.</span>
+            <span className="text-[9px] uppercase tracking-[0.5em] text-[#FDF5E6]/40 font-bold">&copy; 2026 Bún Chả Chinh Hương. Đậm Ấm Tình Quê.</span>
             <div className="flex gap-10 text-[9px] uppercase tracking-[0.5em] text-[#FDF5E6]/40 font-bold">
               <span className="hover:text-[#D97706] cursor-pointer transition-colors">Bảo mật</span>
               <span className="hover:text-[#D97706] cursor-pointer transition-colors">Điều khoản</span>

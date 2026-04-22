@@ -129,17 +129,27 @@ export default function Account() {
               </div>
 
               <div className="light-glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden">
-                <h4 className="font-display text-xl md:text-2xl text-[#1A1A1A] mb-2 md:mb-3">Lịch sử giao dịch</h4>
+                <h4 className="font-display text-xl md:text-2xl text-[#1A1A1A] mb-2 md:mb-3">Lịch sử đơn hàng</h4>
                 <div className="w-12 h-[2px] bg-[#B8860B] mb-5 md:mb-6"></div>
                 
-                <div className="flex flex-col items-center justify-center py-8 md:py-12 text-center border border-[#F0EBE1] rounded-xl bg-[#FAFAFA]">
-                  <p className="text-[#1A1A1A]/40 uppercase tracking-widest text-[9px] md:text-[10px] font-semibold mb-4 md:mb-5">Chưa có giao dịch gần đây</p>
-                  <Link 
-                    to="/menu" 
-                    className="px-6 md:px-8 py-3 bg-[#1A1A1A] text-white border border-transparent hover:bg-[#D4AF37] hover:text-[#1A1A1A] transition-all duration-300 rounded-md text-[10px] uppercase tracking-widest font-bold shadow-md"
-                  >
-                    Bắt đầu đặt món
-                  </Link>
+                <div className="rounded-xl border border-[#F0EBE1] bg-[#FAFAFA] p-5 md:p-6">
+                  <p className="text-sm text-[#1A1A1A]/70 leading-relaxed md:leading-loose">
+                    Xem toàn bộ đơn đã đặt, theo dõi trạng thái hiện tại và mở chi tiết từng đơn ngay trong trang lịch sử.
+                  </p>
+                  <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                    <Link 
+                      to="/history" 
+                      className="px-6 md:px-8 py-3 bg-[#1A1A1A] text-white border border-transparent hover:bg-[#D4AF37] hover:text-[#1A1A1A] transition-all duration-300 rounded-md text-[10px] uppercase tracking-widest font-bold shadow-md text-center"
+                    >
+                      Xem lịch sử đơn
+                    </Link>
+                    <Link 
+                      to="/menu" 
+                      className="px-6 md:px-8 py-3 border border-[#1A1A1A]/15 text-[#1A1A1A] hover:border-[#D4AF37] hover:text-[#B8860B] transition-all duration-300 rounded-md text-[10px] uppercase tracking-widest font-bold text-center"
+                    >
+                      Đặt thêm món
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

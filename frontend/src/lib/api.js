@@ -96,6 +96,10 @@ export const getOrders = async () => {
   return request(`${API_BASE}/orders`, { headers: withAuth() });
 };
 
+export const getOrderById = async (id) => {
+  return request(`${API_BASE}/orders/${id}`, { headers: withAuth() });
+};
+
 export const createOrder = async (payload) => {
   return request(`${API_BASE}/orders`, {
     method: "POST",
