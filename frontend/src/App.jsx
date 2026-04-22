@@ -6,8 +6,13 @@ import Menu from "./pages/Menu.jsx";
 import ItemDetail from "./pages/ItemDetail.jsx";
 import Cart from "./pages/Cart.jsx";
 import Checkout from "./pages/Checkout.jsx";
+import VnpayPayment from "./pages/VnpayPayment.jsx";
+import PaymentResult from "./pages/PaymentResult.jsx";
 import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
+import ForgotPassword from "./pages/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
+import VerifyEmail from "./pages/VerifyEmail.jsx";
 import Account from "./pages/Account.jsx";
 import Orders from "./pages/Orders.jsx";
 import Reviews from "./pages/Reviews.jsx";
@@ -62,6 +67,8 @@ export default function App() {
   const location = useLocation();
   const [entered, setEntered] = useState(() => sessionStorage.getItem("mt_entered") === "true");
   const [exiting, setExiting] = useState(false);
+  const authRoutes = ["/login", "/register", "/forgot-password", "/reset-password", "/verify-email"];
+  const isAuthRoute = authRoutes.some((path) => location.pathname.startsWith(path));
 
   const handleEnter = () => {
     setExiting(true);
@@ -71,13 +78,16 @@ export default function App() {
     }, 1000);
   };
 
-  if (!entered && !location.pathname.startsWith("/admin")) {
+  if (!entered && !location.pathname.startsWith("/admin") && !isAuthRoute) {
     return <IntroScreen onEnter={handleEnter} exiting={exiting} />;
   }
 
   return (
     <Routes>
       <Route path="/admin/*" element={<AdminRoutes />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
       <Route
         path="/*"
         element={
@@ -88,6 +98,8 @@ export default function App() {
               <Route path="/menu/:id" element={<ItemDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment/vnpay" element={<VnpayPayment />} />
+              <Route path="/payment-result" element={<PaymentResult />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/account" element={<Account />} />

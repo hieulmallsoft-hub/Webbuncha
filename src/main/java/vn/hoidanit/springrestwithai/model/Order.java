@@ -31,7 +31,7 @@ public class Order {
     }
 
     public enum PaymentMethod {
-        COD, BANK_TRANSFER, CARD, MOMO
+        COD, BANK_TRANSFER, CARD, MOMO, VNPAY
     }
 
     public enum OrderStatus {

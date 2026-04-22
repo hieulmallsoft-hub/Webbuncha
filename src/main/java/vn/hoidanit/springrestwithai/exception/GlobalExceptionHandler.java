@@ -47,6 +47,13 @@ public class GlobalExceptionHandler {
                                 .body(ApiResponse.unauthorized(ex.getMessage()));
         }
 
+        @ExceptionHandler(RateLimitExceededException.class)
+        public ResponseEntity<ApiResponse<Void>> handleRateLimitExceeded(RateLimitExceededException ex) {
+                log.warn("RateLimitExceededException: {}", ex.getMessage());
+                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                                .body(ApiResponse.ofError(429, ex.getMessage(), "Too Many Requests"));
+        }
+
         // ========== SPRING MVC EXCEPTIONS ==========
 
         @ExceptionHandler(MethodArgumentTypeMismatchException.class)

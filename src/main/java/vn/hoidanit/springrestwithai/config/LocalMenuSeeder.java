@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 import vn.hoidanit.springrestwithai.model.Category;
 import vn.hoidanit.springrestwithai.model.Product;
-import vn.hoidanit.springrestwithai.repository.CategoryRepository;
-import vn.hoidanit.springrestwithai.repository.ProductRepository;
+import vn.hoidanit.springrestwithai.features.catalog.categories.infrastructure.persistence.CategoryRepository;
+import vn.hoidanit.springrestwithai.features.catalog.products.infrastructure.persistence.ProductRepository;
 
 @Component
 @Profile("local")

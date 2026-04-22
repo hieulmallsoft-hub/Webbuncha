@@ -20,7 +20,8 @@ const paymentLabels = {
   COD: "Thanh toán khi nhận món",
   BANK_TRANSFER: "Chuyển khoản",
   CARD: "Thẻ ngân hàng",
-  MOMO: "Ví MoMo"
+  MOMO: "Ví MoMo",
+  VNPAY: "VNPay"
 };
 
 const getNextActions = (status) => {

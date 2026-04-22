@@ -5,9 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 import vn.hoidanit.springrestwithai.model.User;
-import vn.hoidanit.springrestwithai.repository.UserRepository;
-import vn.hoidanit.springrestwithai.service.UserService;
+import vn.hoidanit.springrestwithai.features.users.application.UserService;
+import vn.hoidanit.springrestwithai.features.users.infrastructure.persistence.UserRepository;
 
 @Component
 public class AdminSeeder implements CommandLineRunner {
@@ -45,7 +47,8 @@ public class AdminSeeder implements CommandLineRunner {
         if (adminPassword == null || adminPassword.isBlank()) {
             return;
         }
-        User existing = userRepository.findByEmail(adminEmail).orElse(null);
+        String normalizedAdminEmail = normalizeEmail(adminEmail);
+        User existing = userRepository.findByEmailIgnoreCase(normalizedAdminEmail).orElse(null);
         if (existing != null) {
             boolean needsUpdate = false;
             if (adminName != null && !adminName.isBlank() && !adminName.equals(existing.getName())) {
@@ -67,10 +70,16 @@ public class AdminSeeder implements CommandLineRunner {
         }
 
         User admin = new User();
-        admin.setEmail(adminEmail);
+        admin.setEmail(normalizedAdminEmail);
         admin.setName(adminName);
         admin.setPassword(adminPassword);
         admin.setRole(User.RoleEnum.ADMIN);
+        admin.setEmailVerified(true);
+        admin.setEmailVerifiedAt(java.time.Instant.now());
         userService.createUser(admin);
+    }
+
+    private String normalizeEmail(String email) {
+        return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
     }
 }

@@ -30,8 +30,16 @@
 	<properties>
 		<java.version>25</java.version>
 		<springdoc.version>3.0.3</springdoc.version>
+		<start-class>vn.hoidanit.springrestwithai.SpringRestWithAiApplication</start-class>
+		<spring-boot.run.profiles>local</spring-boot.run.profiles>
 	</properties>
 	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
@@ -173,6 +181,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>vn.hoidanit.springrestwithai.SpringRestWithAiApplication</mainClass>
+					<!-- Avoid replacing the main jar (Windows can lock it while running) -->
+					<classifier>exec</classifier>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

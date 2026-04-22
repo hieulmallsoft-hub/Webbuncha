@@ -40,6 +40,9 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Column(unique = true, length = 20)
+    private String phone;
+
     @Column(nullable = false, length = 255)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // chỉ cho phép nhận vào, không trả về client
     private String password;
@@ -64,6 +67,11 @@ public class User {
     private Instant createdAt;
 
     private Instant updatedAt;
+
+    @Column(nullable = false)
+    private boolean emailVerified = false;
+
+    private Instant emailVerifiedAt;
 
     // Constructor mặc định (bắt buộc với JPA)
     public User() {
@@ -105,6 +113,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Integer getAge() {
@@ -163,6 +179,22 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public Instant getEmailVerifiedAt() {
+        return emailVerifiedAt;
+    }
+
+    public void setEmailVerifiedAt(Instant emailVerifiedAt) {
+        this.emailVerifiedAt = emailVerifiedAt;
+    }
+
     @PrePersist
     void onCreate() {
         Instant now = Instant.now();
@@ -185,6 +217,7 @@ public class User {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 ", age=" + age +
                 ", address='" + address + '\'' +
                 ", gender=" + gender +
@@ -192,6 +225,8 @@ public class User {
                 ", role=" + role +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", emailVerified=" + emailVerified +
+                ", emailVerifiedAt=" + emailVerifiedAt +
                 '}';
     }
 }

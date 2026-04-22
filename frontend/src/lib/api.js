@@ -25,11 +25,22 @@ const request = async (url, options) => {
   }
 };
 
+const normalizeEmail = (value) => {
+  if (typeof value !== "string") {
+    return value;
+  }
+  return value.trim().toLowerCase();
+};
+
 export const registerUser = async (payload) => {
   return request(`${API_BASE}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({
+      ...payload,
+      email: normalizeEmail(payload?.email),
+      phone: typeof payload?.phone === "string" ? payload.phone.trim().replace(/\s+/g, "") : payload?.phone
+    })
   });
 };
 
@@ -37,7 +48,39 @@ export const loginUser = async (payload) => {
   return request(`${API_BASE}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
+    body: JSON.stringify({
+      ...payload,
+      email: normalizeEmail(payload?.email)
+    })
+  });
+};
+
+export const forgotPassword = async (payload) => {
+  return request(`${API_BASE}/auth/forgot-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...payload,
+      phone: typeof payload?.phone === "string" ? payload.phone.trim().replace(/\s+/g, "") : payload?.phone
+    })
+  });
+};
+
+export const resetPassword = async (payload) => {
+  return request(`${API_BASE}/auth/reset-password`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...payload,
+      phone: typeof payload?.phone === "string" ? payload.phone.trim().replace(/\s+/g, "") : payload?.phone
+    })
+  });
+};
+
+export const verifyEmail = async (token) => {
+  const query = token ? `?token=${encodeURIComponent(token)}` : "";
+  return request(`${API_BASE}/auth/verify-email${query}`, {
+    method: "GET"
   });
 };
 
@@ -58,6 +101,13 @@ export const createOrder = async (payload) => {
     method: "POST",
     headers: withAuth({ "Content-Type": "application/json" }),
     body: JSON.stringify(payload)
+  });
+};
+
+export const createVnpayPaymentUrl = async (orderId) => {
+  return request(`${API_BASE}/payments/vnpay/${orderId}`, {
+    method: "POST",
+    headers: withAuth()
   });
 };
 

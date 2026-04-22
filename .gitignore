@@ -37,3 +37,18 @@ frontend/node_modules/
 .npm-cache/
 frontend/.npm-cache/
 uploads/
+.local-db/
+
+### Local env files (do not commit secrets) ###
+.env
+.env.*
+!.env.server.example
+!.env.example
+
+### Local Spring Boot secret overrides (do not commit) ###
+.local/
+
+### Local logs / outputs ###
+run-local*.log
+run-local*.out.log
+run-local*.err.log

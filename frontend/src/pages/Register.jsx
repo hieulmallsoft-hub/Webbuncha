@@ -8,6 +8,7 @@ export default function Register() {
   const [form, setForm] = useState({
     name: "",
     email: "",
+    phone: "",
     password: "",
     age: "",
     address: ""
@@ -26,6 +27,7 @@ export default function Register() {
     const payload = {
       name: form.name,
       email: form.email,
+      phone: form.phone,
       password: form.password,
       age: form.age ? Number(form.age) : null,
       address: form.address || null
@@ -33,8 +35,9 @@ export default function Register() {
     const res = await registerUser(payload);
     if (res.status >= 200 && res.status < 300) {
       setProfileName(form.name);
-      setStatus("Chúc mừng bạn đã là Hội viên. Đang mời bạn vào nếp nhà...");
-      setTimeout(() => navigate("/login"), 1500);
+      const message = "Đăng ký thành công. Vui lòng kiểm tra email để xác thực (link xác thực đang được in trong log server).";
+      setStatus(message);
+      setTimeout(() => navigate("/login", { state: { message } }), 1500);
       return;
     }
     setStatus(res.data?.message || "Đăng ký chưa thành. Mời bạn kiểm tra lại thông tin.");
@@ -124,6 +127,19 @@ export default function Register() {
                     required
                   />
                </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-[9px] uppercase tracking-widest text-[#1A1A1A]/40 font-extrabold ml-1">Số điện thoại</label>
+              <input
+                id="phone"
+                inputMode="tel"
+                className="custom-input-box"
+                placeholder="+84901234567"
+                value={form.phone}
+                onChange={(event) => setForm((prev) => ({ ...prev, phone: event.target.value }))}
+                required
+              />
             </div>
             
             <div className="space-y-1.5">

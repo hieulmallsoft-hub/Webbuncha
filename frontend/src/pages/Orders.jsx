@@ -43,7 +43,8 @@ const paymentLabels = {
   COD: "Khi nhận món",
   BANK_TRANSFER: "Chuyển khoản",
   CARD: "Thẻ ngân hàng",
-  MOMO: "Ví điện tử"
+  MOMO: "Ví điện tử",
+  VNPAY: "VNPay"
 };
 
 export default function Orders() {

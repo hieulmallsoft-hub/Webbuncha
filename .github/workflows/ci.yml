@@ -1,31 +1,30 @@
 name: CI
 
 on:
-  pull_request:
   push:
-    branches: [main]
+  pull_request:
 
 jobs:
-  build-and-test:
+  build_test_and_docker:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up JDK
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "25"
+          java-version: 25
           cache: maven
-
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
 
       - name: Build frontend
         working-directory: frontend
@@ -34,4 +33,10 @@ jobs:
           npm run build
 
       - name: Run backend tests
-        run: mvn -B test
+        run: |
+          chmod +x mvnw
+          ./mvnw -B test
+
+      - name: Build Docker image
+        run: |
+          docker build -t buncha-app:ci .

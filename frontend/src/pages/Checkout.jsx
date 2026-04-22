@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useToast } from "../context/ToastContext.jsx";
-import { createOrder } from "../lib/api.js";
+import { createOrder, createVnpayPaymentUrl } from "../lib/api.js";
 import { clearToken, isSessionInvalidResponse, SESSION_EXPIRED_MESSAGE } from "../lib/auth.js";
 import LocationMap from "../components/LocationMap.jsx";
 import { formatPriceVND } from "../utils/price.js";
@@ -11,7 +11,8 @@ const paymentOptions = [
   { value: "COD", label: "Thanh toán khi nhận món" },
   { value: "BANK_TRANSFER", label: "Chuyển khoản" },
   { value: "CARD", label: "Thẻ ngân hàng" },
-  { value: "MOMO", label: "Ví MoMo" }
+  { value: "MOMO", label: "Ví MoMo" },
+  { value: "VNPAY", label: "VNPay" }
 ];
 
 export default function Checkout() {
@@ -141,6 +142,66 @@ export default function Checkout() {
           title: "Đặt món thất bại",
           message: res.data?.message || "Vui lòng thử lại."
         });
+        return;
+      }
+
+      const createdOrder = res.data?.data;
+      if (paymentMethod === "VNPAY") {
+        if (!createdOrder?.id) {
+          setStatus("Khong tim thay ma don hang de tao thanh toan VNPay.");
+          addToast({
+            type: "error",
+            title: "Khong the tao VNPay",
+            message: "Khong tim thay ma don hang de tao thanh toan."
+          });
+          return;
+        }
+
+        setStatus("Dang chuyen sang cong thanh toan VNPay...");
+        const paymentRes = await createVnpayPaymentUrl(createdOrder.id);
+        if (paymentRes.status < 200 || paymentRes.status >= 300) {
+          if (isSessionInvalidResponse(paymentRes) || paymentRes.status === 401) {
+            clearToken();
+            setStatus(SESSION_EXPIRED_MESSAGE);
+            addToast({
+              type: "warning",
+              title: "Phien dang nhap het hieu luc",
+              message: SESSION_EXPIRED_MESSAGE
+            });
+            navigate("/login", { replace: true, state: { message: SESSION_EXPIRED_MESSAGE } });
+            return;
+          }
+
+          setStatus(paymentRes.data?.message || "Khong tao duoc duong dan thanh toan VNPay.");
+          addToast({
+            type: "error",
+            title: "Thanh toan VNPay that bai",
+            message: paymentRes.data?.message || "Vui long thu lai."
+          });
+          return;
+        }
+
+        const paymentUrl = paymentRes.data?.data?.paymentUrl;
+        if (!paymentUrl) {
+          setStatus("Khong tao duoc duong dan thanh toan VNPay.");
+          addToast({
+            type: "error",
+            title: "Thanh toan VNPay that bai",
+            message: "Khong tim thay duong dan thanh toan."
+          });
+          return;
+        }
+
+        const pendingPayment = {
+          orderId: createdOrder.id,
+          amount: paymentRes.data?.data?.amount ?? summary.total,
+          txnRef: paymentRes.data?.data?.txnRef || String(createdOrder.id),
+          paymentUrl,
+          paymentMethod: "VNPay"
+        };
+        sessionStorage.setItem("vnpay_pending_payment", JSON.stringify(pendingPayment));
+        setStatus("Da tao giao dien thanh toan VNPay. Dang chuyen trang...");
+        navigate("/payment/vnpay", { state: pendingPayment });
         return;
       }
 

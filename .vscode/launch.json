@@ -2,30 +2,22 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot Local (H2)",
+            "name": "Spring Boot-SpringRestWithAiApplication<spring-rest-with-ai>",
             "request": "launch",
-            "cwd": "${workspaceFolder}/web bun cha",
+            "cwd": "${workspaceFolder}",
             "mainClass": "vn.hoidanit.springrestwithai.SpringRestWithAiApplication",
             "projectName": "spring-rest-with-ai",
             "preLaunchTask": "maven-prepare",
-            "shortenCommandLine": "jarmanifest",
-            "args": "",
-            "env": {
-                "SPRING_PROFILES_ACTIVE": "local"
-            },
-            "envFile": "${workspaceFolder}/web bun cha/.env"
+            "shortenCommandLine": "argfile",
+            "args": "--spring.profiles.active=local",
+            "envFile": "${workspaceFolder}/.env"
         },
         {
             "type": "java",
-            "name": "Spring Boot (web bun cha)",
-            "request": "launch",
-            "cwd": "${workspaceFolder}/web bun cha",
-            "mainClass": "vn.hoidanit.springrestwithai.SpringRestWithAiApplication",
-            "projectName": "spring-rest-with-ai",
-            "preLaunchTask": "maven-prepare",
-            "shortenCommandLine": "jarmanifest",
-            "args": "",
-            "envFile": "${workspaceFolder}/web bun cha/.env"
+            "name": "Attach - Spring Boot (localhost:5005)",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 5005
         }
     ]
 }

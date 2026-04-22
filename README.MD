@@ -55,6 +55,10 @@ Một số endpoint chính:
 POST   /auth/register
 POST   /auth/login
 POST   /auth/refresh
+POST   /auth/forgot-password
+POST   /auth/reset-password
+GET    /auth/verify-email?token=...
+POST   /auth/verify-email/resend
 
 GET    /products
 GET    /products/{id}
@@ -93,7 +97,18 @@ $env:APP_ADMIN_PASSWORD="ChangeThisLocalPassword123!"
 mvn spring-boot:run
 ```
 
-Backend mặc định dùng H2 file database tại `.local-db/buncha`. Nếu đặt `APP_ADMIN_PASSWORD`, app sẽ seed tài khoản admin:
+Nếu `spring-boot:run` trên máy bạn vẫn báo lỗi main class, dùng cách ổn định hơn:
+
+```powershell
+.\run-local.cmd
+```
+
+### Env local / server
+
+- Local: copy `./.env.example` -> `./.env.local`, sau Ä‘Ã³ cháº¡y `./run-local.cmd`.
+- Server/deploy: copy `./.env.server.example` -> `./.env` vÃ  cáº­p nháº­t giÃ¡ trá»‹.
+
+Backend local dùng H2 file tại `.local-db/buncha` để dữ liệu giữ lại sau khi restart. Nếu đặt `APP_ADMIN_PASSWORD`, app sẽ seed tài khoản admin:
 
 ```text
 Email: admin@bunchachinhhuong.vn
@@ -130,7 +145,12 @@ DB_PASSWORD
 JWT_SECRET
 APP_ADMIN_PASSWORD
 CORS_ALLOWED_ORIGINS
-```
+VNPAY_ENABLED
+VNPAY_TMN_CODE
+VNPAY_HASH_SECRET
+VNPAY_RETURN_URL
+VNPAY_IPN_URL
+``` 
 
 Khởi động:
 

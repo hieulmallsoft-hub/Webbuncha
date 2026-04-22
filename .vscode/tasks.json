@@ -7,10 +7,10 @@
             "command": "cmd.exe",
             "args": [
                 "/c",
-                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -DskipTests package) else (call mvn -q -DskipTests package)"
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -DskipTests -Dmaven.repo.local=\"${workspaceFolder}\\.m2\\repository\" package) else (call mvn -q -DskipTests -Dmaven.repo.local=\"${workspaceFolder}\\.m2\\repository\" package)"
             ],
             "options": {
-                "cwd": "${workspaceFolder}\\web bun cha"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
         },
@@ -20,10 +20,10 @@
             "command": "cmd.exe",
             "args": [
                 "/c",
-                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -DskipTests dependency:copy-dependencies -DoutputDirectory=target/dependency) else (call mvn -q -DskipTests dependency:copy-dependencies -DoutputDirectory=target/dependency)"
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -DskipTests -Dmaven.repo.local=\"${workspaceFolder}\\.m2\\repository\" dependency:copy-dependencies -DoutputDirectory=target/dependency) else (call mvn -q -DskipTests -Dmaven.repo.local=\"${workspaceFolder}\\.m2\\repository\" dependency:copy-dependencies -DoutputDirectory=target/dependency)"
             ],
             "options": {
-                "cwd": "${workspaceFolder}\\web bun cha"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
         },
@@ -33,10 +33,10 @@
             "command": "cmd.exe",
             "args": [
                 "/c",
-                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q test-compile) else (call mvn -q test-compile)"
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -q -Dmaven.repo.local=\"${workspaceFolder}\\.m2\\repository\" test-compile) else (call mvn -q -Dmaven.repo.local=\"${workspaceFolder}\\.m2\\repository\" test-compile)"
             ],
             "options": {
-                "cwd": "${workspaceFolder}\\web bun cha"
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
         },
@@ -52,7 +52,20 @@
                 "scripts\\create-test-classpath-jar.ps1"
             ],
             "options": {
-                "cwd": "${workspaceFolder}\\web bun cha"
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "spring-boot-run-local-debug",
+            "type": "shell",
+            "command": "cmd.exe",
+            "args": [
+                "/c",
+                "if exist .mvn\\wrapper\\maven-wrapper.jar (call mvnw.cmd -Dspring-boot.run.profiles=local -Dspring-boot.run.jvmArguments=\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005\" spring-boot:run) else (call mvn -Dspring-boot.run.profiles=local -Dspring-boot.run.jvmArguments=\"-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005\" spring-boot:run)"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
         },
@@ -72,16 +85,6 @@
                 "mvn-package"
             ],
             "dependsOrder": "sequence",
-            "problemMatcher": []
-        },
-        {
-            "label": "spring-boot-run-local",
-            "type": "shell",
-            "command": "${workspaceFolder}\\run-local.cmd",
-            "args": [],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
             "problemMatcher": []
         }
     ]

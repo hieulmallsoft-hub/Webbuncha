@@ -1,17 +1,18 @@
 {
+    "java.compile.nullAnalysis.mode": "automatic",
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.test.defaultConfig": "spring-rest-with-ai-tests",
     "java.test.config": [
         {
             "name": "spring-rest-with-ai-tests",
-            "workingDirectory": "${workspaceFolder}/web bun cha",
+            "workingDirectory": "${workspaceFolder}",
             "testKind": "junit",
             "preLaunchTask": "maven-test-prepare",
             "shortenCommandLine": "argfile",
             "classPaths": [
-                "${workspaceFolder}/web bun cha/target/test-classes",
-                "${workspaceFolder}/web bun cha/target/classes",
-                "${workspaceFolder}/web bun cha/target/test-classpath.jar"
+                "${workspaceFolder}/target/test-classes",
+                "${workspaceFolder}/target/classes",
+                "${workspaceFolder}/target/test-classpath.jar"
             ],
             "vmArgs": [
                 "-Dspring.profiles.active=test"
@@ -20,6 +21,5 @@
                 "SPRING_PROFILES_ACTIVE": "test"
             }
         }
-    ],
-    "java.compile.nullAnalysis.mode": "automatic"
+    ]
 }
