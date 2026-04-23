@@ -27,7 +27,7 @@ export default function AdminLogin() {
     const res = await loginAdmin(values);
     if (res.status >= 200 && res.status < 300) {
       setStatus("Đăng nhập thành công.");
-      navigate("/admin");
+      navigate("/admin/dashboard");
       return;
     }
     setStatus(res.data?.message || "Đăng nhập thất bại.");

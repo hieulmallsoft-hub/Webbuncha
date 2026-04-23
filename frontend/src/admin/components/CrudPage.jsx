@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DataTable from "./DataTable.jsx";
@@ -16,7 +16,8 @@ export default function CrudPage({
   schema,
   defaultValues,
   fields,
-  mapPayload
+  mapPayload,
+  mapFormValues
 }) {
   const { data, loading, error, createItem, updateItem, removeItem } = useCrud(service);
   const addToast = useUiStore((state) => state.addToast);
@@ -48,7 +49,8 @@ export default function CrudPage({
 
   const openEdit = (row) => {
     setEditing(row);
-    reset({ ...formDefaults, ...row });
+    const nextValues = mapFormValues ? mapFormValues(row) : row;
+    reset({ ...formDefaults, ...nextValues });
     setOpen(true);
   };
 

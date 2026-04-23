@@ -21,6 +21,7 @@ export default function AdminRoutes() {
       <Route element={<AdminGuard />}>
         <Route element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
+          <Route path="dashboard" element={<Dashboard />} />
           <Route path="users" element={<Users />} />
           <Route path="roles" element={<Roles />} />
           <Route path="categories" element={<Categories />} />

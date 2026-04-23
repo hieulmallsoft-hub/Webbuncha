@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
 import CrudPage from "../components/CrudPage.jsx";
 import { productsService } from "../services/productsService.js";
 import { categoriesService } from "../services/categoriesService.js";
 import { uploadService } from "../services/uploadService.js";
-import { formatCurrency } from "../utils/format.js";
+import { formatPriceVnd, toAdminPriceInput, toPriceUnits } from "../utils/format.js";
 
 const schema = z.object({
   name: z.string().min(2, "Ten mon toi thieu 2 ky tu"),
@@ -73,14 +73,18 @@ export default function Products() {
       columns={[
         { key: "name", header: "Mon" },
         { key: "categoryName", header: "Danh muc" },
-        { key: "price", header: "Gia", render: (row) => formatCurrency(row.price) }
+        { key: "price", header: "Gia", render: (row) => formatPriceVnd(row.price) }
       ]}
       fields={fields}
+      mapFormValues={(row) => ({
+        ...row,
+        price: toAdminPriceInput(row.price)
+      })}
       mapPayload={(values) => ({
         name: values.name,
         description: values.description || null,
         imageUrl: values.imageUrl || null,
-        price: Number(values.price),
+        price: toPriceUnits(values.price),
         categoryId: Number(values.categoryId)
       })}
     />

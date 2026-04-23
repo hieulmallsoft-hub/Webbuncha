@@ -1,6 +1,19 @@
 import { useEffect } from "react";
 
-export default function Modal({ open, title, children, onClose, footer }) {
+const joinClasses = (...values) => values.filter(Boolean).join(" ");
+
+export default function Modal({
+  open,
+  title,
+  children,
+  onClose,
+  footer,
+  cardClassName,
+  headClassName,
+  titleClassName,
+  bodyClassName,
+  footerClassName
+}) {
   useEffect(() => {
     if (!open) return;
     const onKey = (event) => {
@@ -17,15 +30,15 @@ export default function Modal({ open, title, children, onClose, footer }) {
   return (
     <div className="admin-modal">
       <div className="admin-modal-backdrop" onClick={onClose} />
-      <div className="admin-modal-card">
-        <div className="admin-modal-head">
-          <h4 className="font-display text-lg">{title}</h4>
-          <button className="admin-icon-button" type="button" onClick={onClose}>
-            ✕
+      <div className={joinClasses("admin-modal-card", cardClassName)}>
+        <div className={joinClasses("admin-modal-head", headClassName)}>
+          <h4 className={joinClasses("font-display text-lg", titleClassName)}>{title}</h4>
+          <button className="admin-icon-button" type="button" onClick={onClose} aria-label="Đóng modal">
+            &times;
           </button>
         </div>
-        <div className="admin-modal-body">{children}</div>
-        {footer && <div className="admin-modal-footer">{footer}</div>}
+        <div className={joinClasses("admin-modal-body", bodyClassName)}>{children}</div>
+        {footer && <div className={joinClasses("admin-modal-footer", footerClassName)}>{footer}</div>}
       </div>
     </div>
   );

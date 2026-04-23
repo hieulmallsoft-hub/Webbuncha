@@ -2,7 +2,7 @@ export const adminNav = [
   {
     label: "Tổng quan",
     items: [
-      { to: "/admin", label: "Dashboard", permission: "dashboard" }
+      { to: "/admin/dashboard", label: "Dashboard", permission: "dashboard" }
     ]
   },
   {

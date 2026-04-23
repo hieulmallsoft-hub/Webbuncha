@@ -42,6 +42,17 @@ export const ordersService = {
     }
     return { ok: false, data: store.list(), error: res.data?.message };
   },
+
+  async getById(id) {
+    const res = await http.get(`/orders/${id}`);
+    if (res.status >= 200 && res.status < 300) {
+      return { ok: true, data: res.data?.data };
+    }
+
+    const fallback = store.list().find((item) => String(item.id) === String(id)) || null;
+    return { ok: false, data: fallback, error: res.data?.message };
+  },
+
   async updateStatus(id, status) {
     const res = await http.patch(`/orders/${id}/status?status=${status}`);
     if (res.status >= 200 && res.status < 300) {
