@@ -2,7 +2,7 @@ package vn.hoidanit.springrestwithai.features.notifications.presentation.dto.req
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import vn.hoidanit.springrestwithai.features.notifications.infrastructure.persistence.Notification;
+import vn.hoidanit.springrestwithai.model.Notification;
 
 public class NotificationRequest {
 
@@ -48,4 +48,3 @@ public class NotificationRequest {
         return notification;
     }
 }
-

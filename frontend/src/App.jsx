@@ -1,25 +1,25 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import Layout from "./components/Layout.jsx";
-import Home from "./pages/Home.jsx";
-import Menu from "./pages/Menu.jsx";
-import ItemDetail from "./pages/ItemDetail.jsx";
-import Cart from "./pages/Cart.jsx";
-import Checkout from "./pages/Checkout.jsx";
-import VnpayPayment from "./pages/VnpayPayment.jsx";
-import PaymentResult from "./pages/PaymentResult.jsx";
-import Login from "./pages/Login.jsx";
-import Register from "./pages/Register.jsx";
-import ForgotPassword from "./pages/ForgotPassword.jsx";
-import ResetPassword from "./pages/ResetPassword.jsx";
-import VerifyEmail from "./pages/VerifyEmail.jsx";
-import Account from "./pages/Account.jsx";
-import Orders from "./pages/Orders.jsx";
-import Reviews from "./pages/Reviews.jsx";
-import About from "./pages/About.jsx";
-import NotFound from "./pages/NotFound.jsx";
-import AdminRoutes from "./admin/AdminRoutes.jsx";
-import { getProducts } from "./lib/api.js";
+
+const Home = lazy(() => import("./pages/Home.jsx"));
+const Menu = lazy(() => import("./pages/Menu.jsx"));
+const ItemDetail = lazy(() => import("./pages/ItemDetail.jsx"));
+const Cart = lazy(() => import("./pages/Cart.jsx"));
+const Checkout = lazy(() => import("./pages/Checkout.jsx"));
+const VnpayPayment = lazy(() => import("./pages/VnpayPayment.jsx"));
+const PaymentResult = lazy(() => import("./pages/PaymentResult.jsx"));
+const Login = lazy(() => import("./pages/Login.jsx"));
+const Register = lazy(() => import("./pages/Register.jsx"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
+const ResetPassword = lazy(() => import("./pages/ResetPassword.jsx"));
+const VerifyEmail = lazy(() => import("./pages/VerifyEmail.jsx"));
+const Account = lazy(() => import("./pages/Account.jsx"));
+const Orders = lazy(() => import("./pages/Orders.jsx"));
+const Reviews = lazy(() => import("./pages/Reviews.jsx"));
+const About = lazy(() => import("./pages/About.jsx"));
+const NotFound = lazy(() => import("./pages/NotFound.jsx"));
+const AdminRoutes = lazy(() => import("./admin/AdminRoutes.jsx"));
 
 const fallbackPreview = [
   { name: "Bún chả viên", desc: "Chả viên nướng thơm, bún rối", price: "6.0" },
@@ -83,34 +83,36 @@ export default function App() {
   }
 
   return (
-    <Routes>
-      <Route path="/admin/*" element={<AdminRoutes />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ResetPassword />} />
-      <Route path="/verify-email" element={<VerifyEmail />} />
-      <Route
-        path="/*"
-        element={
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/menu" element={<Menu />} />
-              <Route path="/menu/:id" element={<ItemDetail />} />
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/payment/vnpay" element={<VnpayPayment />} />
-              <Route path="/payment-result" element={<PaymentResult />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/history" element={<Orders />} />
-              <Route path="/reviews" element={<Reviews />} />
-              <Route path="/about" element={<About />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        }
-      />
-    </Routes>
+    <Suspense fallback={null}>
+      <Routes>
+        <Route path="/admin/*" element={<AdminRoutes />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route
+          path="/*"
+          element={
+            <Layout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/menu" element={<Menu />} />
+                <Route path="/menu/:id" element={<ItemDetail />} />
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/payment/vnpay" element={<VnpayPayment />} />
+                <Route path="/payment-result" element={<PaymentResult />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/account" element={<Account />} />
+                <Route path="/history" element={<Orders />} />
+                <Route path="/reviews" element={<Reviews />} />
+                <Route path="/about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Layout>
+          }
+        />
+      </Routes>
+    </Suspense>
   );
 }

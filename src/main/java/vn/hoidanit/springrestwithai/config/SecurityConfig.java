@@ -41,15 +41,19 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origin-patterns:http://localhost:*,http://127.0.0.1:*,http://localhost,http://127.0.0.1}")
     private String corsAllowedOriginPatterns;
 
+    @Value("${app.swagger.public-enabled:false}")
+    private boolean swaggerPublicEnabled;
+
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> {})
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(auth -> {
+                    auth
                         .requestMatchers("/", "/index.html", "/favicon.ico", "/assets/**", "/images/**", "/uploads/**",
-                                "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**")
+                                "/firebase-messaging-sw.js")
                         .permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/health",
@@ -68,11 +72,18 @@ public class SecurityConfig {
                                 "/admin",
                                 "/admin/**").permitAll()
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/chat").permitAll()
                         .requestMatchers(HttpMethod.GET, "/notifications/stream").permitAll()
                         .requestMatchers(HttpMethod.GET, "/push/public-config").permitAll()
                         .requestMatchers(HttpMethod.GET, "/payments/vnpay/ipn").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/categories/**", "/products/**").permitAll()
-                        .anyRequest().authenticated())
+                        .requestMatchers(HttpMethod.GET, "/categories/**", "/products/**").permitAll();
+
+                    if (swaggerPublicEnabled) {
+                        auth.requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll();
+                    }
+
+                    auth.anyRequest().authenticated();
+                })
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt
                         .jwtAuthenticationConverter(jwtAuthenticationConverter())));
 

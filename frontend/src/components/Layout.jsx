@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { clearToken, getToken } from "../lib/auth.js";
 import { useCart } from "../context/CartContext.jsx";
+import ChatWidget from "./ChatWidget.jsx";
 import ToastContainer from "./ToastContainer.jsx";
 
 const navItems = [
@@ -208,6 +209,7 @@ export default function Layout({ children }) {
           </div>
         </div>
       </footer>
+      <ChatWidget />
       <ToastContainer />
     </div>
   );

@@ -5,6 +5,6 @@ target
 .local-db
 frontend/node_modules
 frontend/dist
-uploads
+/uploads
 Docker
 *.log

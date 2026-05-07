@@ -8,6 +8,7 @@ const apiPrefixes = [
   "/payments",
   "/categories",
   "/products",
+  "/chat",
   "/users",
   "/notifications",
   "/push",
@@ -30,7 +31,17 @@ export default defineConfig({
   base: "/",
   build: {
     outDir: "dist",
-    emptyOutDir: true
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          react: ["react", "react-dom", "react-router-dom"],
+          antd: ["antd"],
+          charts: ["recharts"],
+          maps: ["leaflet", "react-leaflet"]
+        }
+      }
+    }
   },
   server: {
     port: 5173,

@@ -2,7 +2,7 @@ package vn.hoidanit.springrestwithai.features.notifications.presentation.dto.res
 
 import java.time.Instant;
 
-import vn.hoidanit.springrestwithai.features.notifications.infrastructure.persistence.Notification;
+import vn.hoidanit.springrestwithai.model.Notification;
 
 public class NotificationResponse {
 
@@ -72,4 +72,3 @@ public class NotificationResponse {
         this.updatedAt = updatedAt;
     }
 }
-

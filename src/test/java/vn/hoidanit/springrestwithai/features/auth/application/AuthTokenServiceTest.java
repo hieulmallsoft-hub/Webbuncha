@@ -24,7 +24,6 @@ import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.Aut
 import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.AuthToken.TokenType;
 import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.AuthTokenRepository;
 import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.RefreshTokenRepository;
-import vn.hoidanit.springrestwithai.features.notification.sms.SmsSender;
 import vn.hoidanit.springrestwithai.features.users.application.UserService;
 import vn.hoidanit.springrestwithai.features.users.infrastructure.persistence.UserRepository;
 import vn.hoidanit.springrestwithai.model.User;
@@ -44,9 +43,6 @@ class AuthTokenServiceTest {
     @Mock
     private RefreshTokenRepository refreshTokenRepository;
 
-    @Mock
-    private SmsSender smsSender;
-
     private AuthTokenProperties properties;
 
     private AuthTokenService authTokenService;
@@ -63,7 +59,7 @@ class AuthTokenServiceTest {
         properties.setPasswordResetFrontendUrl("http://localhost:5173/reset-password");
 
         authTokenService = new AuthTokenService(authTokenRepository, userRepository, userService, refreshTokenRepository,
-                properties, smsSender);
+                properties);
     }
 
     @Test

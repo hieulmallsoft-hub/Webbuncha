@@ -26,6 +26,20 @@ export const notificationsService = {
     }
     return { ok: false, error: toError(res, "Không thể cập nhật thông báo.") };
   },
+  async markAsRead(id) {
+    const res = await http.patch(`/notifications/${id}/read`);
+    if (res.status >= 200 && res.status < 300) {
+      return { ok: true, data: res.data?.data };
+    }
+    return { ok: false, error: toError(res, "Khong the danh dau thong bao da doc.") };
+  },
+  async markAllAsRead() {
+    const res = await http.patch("/notifications/read-all");
+    if (res.status >= 200 && res.status < 300) {
+      return { ok: true, data: res.data?.data || [] };
+    }
+    return { ok: false, error: toError(res, "Khong the danh dau tat ca thong bao da doc.") };
+  },
   async remove(id) {
     const res = await http.delete(`/notifications/${id}`);
     if (res.status >= 200 && res.status < 300) {

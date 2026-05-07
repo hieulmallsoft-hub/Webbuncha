@@ -81,10 +81,10 @@ public class AuthController {
     @PostMapping("/forgot-password")
     public ResponseEntity<ApiResponse<Void>> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request,
             HttpServletRequest httpRequest) {
-        authTokenService.requestPasswordResetSms(request.getPhone(), getClientIp(httpRequest),
+        authTokenService.requestPasswordResetByPhone(request.getPhone(), getClientIp(httpRequest),
                 httpRequest != null ? httpRequest.getHeader("User-Agent") : null);
-        // Always return success to avoid email enumeration.
-        return ResponseEntity.ok(ApiResponse.success("Neu so dien thoai ton tai, OTP dat lai mat khau da duoc gui", null));
+        // Always return success to avoid account enumeration.
+        return ResponseEntity.ok(ApiResponse.success("Neu so dien thoai ton tai, OTP dat lai mat khau da duoc tao", null));
     }
 
     @PostMapping("/reset-password")

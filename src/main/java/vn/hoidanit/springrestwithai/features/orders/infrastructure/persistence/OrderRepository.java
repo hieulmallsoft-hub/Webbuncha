@@ -2,13 +2,14 @@ package vn.hoidanit.springrestwithai.features.orders.infrastructure.persistence;
 
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import vn.hoidanit.springrestwithai.model.Order;
 
@@ -18,4 +19,5 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
     @EntityGraph(attributePaths = { "user", "items" })
     @Query("select distinct o from Order o left join fetch o.user left join fetch o.items where o.id = :id")
     Optional<Order> findByIdWithDetails(@Param("id") Long id);
+    Page<Order> findAll(Pageable pageable);
 }

@@ -1,11 +1,22 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar.jsx";
 import Topbar from "./Topbar.jsx";
 import ToastContainer from "./ToastContainer.jsx";
 import { useAdminPushNotifications } from "../hooks/useAdminPushNotifications.js";
+import { useNotificationStore } from "../store/notificationStore.js";
 
 export default function AdminLayout() {
   useAdminPushNotifications();
+  const loadNotifications = useNotificationStore((state) => state.load);
+  const startNotificationStream = useNotificationStore((state) => state.startStream);
+  const stopNotificationStream = useNotificationStore((state) => state.stopStream);
+
+  useEffect(() => {
+    loadNotifications();
+    startNotificationStream();
+    return () => stopNotificationStream();
+  }, [loadNotifications, startNotificationStream, stopNotificationStream]);
 
   return (
     <div className="admin-shell restaurant-play lux-shell">

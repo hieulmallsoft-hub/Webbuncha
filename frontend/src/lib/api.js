@@ -134,3 +134,11 @@ export const getProducts = async (categoryId) => {
 export const getProductById = async (id) => {
   return request(`${API_BASE}/products/${id}`);
 };
+
+export const sendChatMessage = async (message) => {
+  return request(`${API_BASE}/chat`, {
+    method: "POST",
+    headers: withAuth({ "Content-Type": "application/json" }),
+    body: JSON.stringify({ message })
+  });
+};

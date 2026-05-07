@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import vn.hoidanit.springrestwithai.exception.ResourceNotFoundException;
-import vn.hoidanit.springrestwithai.features.notifications.infrastructure.persistence.Notification;
 import vn.hoidanit.springrestwithai.features.notifications.infrastructure.persistence.NotificationRepository;
+import vn.hoidanit.springrestwithai.model.Notification;
 import vn.hoidanit.springrestwithai.model.Order;
 
 @Service
@@ -91,6 +91,18 @@ public class NotificationService {
         return notificationRepository.save(existing);
     }
 
+    public Notification markAsRead(Long id) {
+        Notification existing = getNotificationById(id);
+        existing.setStatus(Notification.Status.READ);
+        return notificationRepository.save(existing);
+    }
+
+    public List<Notification> markAllAsRead() {
+        List<Notification> notifications = notificationRepository.findAll();
+        notifications.forEach(notification -> notification.setStatus(Notification.Status.READ));
+        return notificationRepository.saveAll(notifications);
+    }
+
     public void deleteNotification(Long id) {
         getNotificationById(id);
         notificationRepository.deleteById(id);
@@ -100,4 +112,3 @@ public class NotificationService {
         return value == null || value.isBlank();
     }
 }
-

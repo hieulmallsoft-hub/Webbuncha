@@ -32,12 +32,14 @@ build/
 ### VS Code ###
 .vscode/
 .m2/
-node_modules/
-frontend/node_modules/
-.npm-cache/
-frontend/.npm-cache/
-uploads/
-.local-db/
+/node_modules/
+/frontend/node_modules/
+/frontend/dist/
+/.npm-cache/
+/frontend/.npm-cache/
+/uploads/
+/.local-db/
+/META-INF/
 
 ### Local env files (do not commit secrets) ###
 .env
@@ -49,6 +51,6 @@ uploads/
 .local/
 
 ### Local logs / outputs ###
-run-local*.log
-run-local*.out.log
-run-local*.err.log
+*.log
+*.out.log
+*.err.log

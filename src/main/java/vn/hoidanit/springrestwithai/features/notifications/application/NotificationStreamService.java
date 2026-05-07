@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import vn.hoidanit.springrestwithai.features.notifications.infrastructure.persistence.Notification;
+import vn.hoidanit.springrestwithai.model.Notification;
 import vn.hoidanit.springrestwithai.features.notifications.presentation.dto.response.NotificationResponse;
 
 @Service
@@ -32,6 +32,7 @@ public class NotificationStreamService {
             } catch (IOException ex) {
                 emitters.remove(emitter);
             }
+            
         }
     }
 }

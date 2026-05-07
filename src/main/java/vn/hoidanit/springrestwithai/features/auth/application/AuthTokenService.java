@@ -20,7 +20,6 @@ import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.Aut
 import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.AuthToken.TokenType;
 import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.AuthTokenRepository;
 import vn.hoidanit.springrestwithai.features.auth.infrastructure.persistence.RefreshTokenRepository;
-import vn.hoidanit.springrestwithai.features.notification.sms.SmsSender;
 import vn.hoidanit.springrestwithai.features.users.application.UserService;
 import vn.hoidanit.springrestwithai.features.users.infrastructure.persistence.UserRepository;
 import vn.hoidanit.springrestwithai.model.User;
@@ -36,21 +35,18 @@ public class AuthTokenService {
     private final UserService userService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final AuthTokenProperties properties;
-    private final SmsSender smsSender;
 
     public AuthTokenService(
             AuthTokenRepository authTokenRepository,
             UserRepository userRepository,
             UserService userService,
             RefreshTokenRepository refreshTokenRepository,
-            AuthTokenProperties properties,
-            SmsSender smsSender) {
+            AuthTokenProperties properties) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.userService = userService;
         this.refreshTokenRepository = refreshTokenRepository;
         this.properties = properties;
-        this.smsSender = smsSender;
     }
 
     @Transactional
@@ -130,7 +126,7 @@ public class AuthTokenService {
     }
 
     @Transactional
-    public void requestPasswordResetSms(String phone, String ip, String userAgent) {
+    public void requestPasswordResetByPhone(String phone, String ip, String userAgent) {
         String normalizedPhone = normalizePhone(phone);
         if (normalizedPhone == null || normalizedPhone.isBlank()) {
             return;
@@ -149,9 +145,8 @@ public class AuthTokenService {
         GeneratedToken token = createToken(user, normalizedPhone, TokenType.PASSWORD_RESET,
                 Instant.now().plus(properties.getPasswordResetTtl()), ip, userAgent);
 
-        String message = "OTP dat lai mat khau: " + token.rawToken() + " (het han sau "
-                + properties.getPasswordResetTtl().getSeconds() + "s).";
-        smsSender.send(normalizedPhone, message);
+        log.info("Password reset OTP requested for phone {}. OTP: {} (expires in {}s)",
+                normalizedPhone, token.rawToken(), properties.getPasswordResetTtl().getSeconds());
     }
 
     @Transactional
